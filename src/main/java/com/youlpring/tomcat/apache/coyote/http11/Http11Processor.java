@@ -1,11 +1,13 @@
 package com.youlpring.tomcat.apache.coyote.http11;
 
-import com.youlpring.jws.exception.UncheckedServletException;
 import com.youlpring.tomcat.apache.coyote.Processor;
+import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
+import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
+import com.youlpring.tomcat.apache.coyote.http11.response.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class Http11Processor implements Runnable, Processor {
@@ -26,21 +28,15 @@ public class Http11Processor implements Runnable, Processor {
 
     @Override
     public void process(final Socket connection) {
-        try (final var inputStream = connection.getInputStream();
-             final var outputStream = connection.getOutputStream()) {
+        try (final InputStream inputStream = connection.getInputStream();
+             final OutputStream outputStream = connection.getOutputStream()) {
 
-            final var responseBody = "Hello world!";
+            HttpRequest httpRequest = new HttpRequest(new BufferedReader(new InputStreamReader(inputStream)));
+            HttpResponse httpResponse = new HttpResponse(new ResponseBody(httpRequest.getUrl()));
 
-            final var response = String.join("\r\n",
-                    "HTTP/1.1 200 OK ",
-                    "Content-Type: text/html;charset=utf-8 ",
-                    "Content-Length: " + responseBody.getBytes().length + " ",
-                    "",
-                    responseBody);
-
-            outputStream.write(response.getBytes());
+            outputStream.write(httpResponse.getHttpByte());
             outputStream.flush();
-        } catch (IOException | UncheckedServletException e) {
+        } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
     }
