@@ -39,7 +39,7 @@ public class Connector implements Runnable {
     }
 
     public void start() {
-        var thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
         stopped = false;
@@ -66,7 +66,7 @@ public class Connector implements Runnable {
         if (connection == null) {
             return;
         }
-        var processor = new Http11Processor(connection);
+        Http11Processor processor = new Http11Processor(connection);
         new Thread(processor).start();
     }
 
@@ -80,8 +80,8 @@ public class Connector implements Runnable {
     }
 
     private int checkPort(final int port) {
-        final var MIN_PORT = 1;
-        final var MAX_PORT = 65535;
+        final int MIN_PORT = 1;
+        final int MAX_PORT = 65535;
 
         if (port < MIN_PORT || MAX_PORT < port) {
             return DEFAULT_PORT;
