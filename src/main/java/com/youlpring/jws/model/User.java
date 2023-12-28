@@ -1,8 +1,10 @@
 package com.youlpring.jws.model;
 
+import com.youlpring.jws.exception.UserRegisterException;
+
 public class User {
 
-    private final Long id;
+    private Long id;
     private final String account;
     private final String password;
     private final String email;
@@ -22,8 +24,19 @@ public class User {
         return this.password.equals(password);
     }
 
+    public void setId(Long newId) {
+        if (id != null) {
+            throw new UserRegisterException("이미 등록된 계정입니다.");
+        }
+        this.id = newId;
+    }
+
     public String getAccount() {
         return account;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
     @Override
