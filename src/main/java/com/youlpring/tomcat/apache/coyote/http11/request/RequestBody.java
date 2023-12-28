@@ -3,20 +3,42 @@ package com.youlpring.tomcat.apache.coyote.http11.request;
 import com.youlpring.tomcat.apache.util.IOUtil;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RequestBody {
 
     private String body;
+    private final Map<String, String> paramMap = new HashMap<>();
 
-    public RequestBody(BufferedReader bufferedReader) {
+    public RequestBody(BufferedReader bufferedReader, int contentLength) {
         if (!IOUtil.ready(bufferedReader)) {
             return;
         }
-        StringBuilder builder = new StringBuilder();
-        String line;
-        while ((line = IOUtil.readLine(bufferedReader)) != null) {
-            builder.append(line);
+        char[] bodyChars = IOUtil.read(bufferedReader, contentLength);
+        body = String.valueOf(bodyChars);
+        if (body != null) {
+            setParamMap();
         }
-        body = builder.toString();
+    }
+
+    private void setParamMap() {
+        String[] params = body.split("&");
+        for (String param : params) {
+            String[] keyValue = param.split("=");
+            if (keyValue.length == 2) {
+                paramMap.put(keyValue[0], keyValue[1]);
+            }
+        }
+    }
+
+    public String getParam(String key) {
+        return paramMap.get(key);
+    }
+
+    public List<String> getParamKey() {
+        return new ArrayList<>(paramMap.keySet());
     }
 }
