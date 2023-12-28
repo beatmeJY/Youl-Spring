@@ -11,8 +11,8 @@ import java.nio.file.Path;
 
 public class FileUtil {
 
-    public static String getFileReadString(String fileName) {
-        if (fileName == null) {
+    public static String getStaticFile(String fileName) {
+        if (fileName == null || "".equals(fileName)) {
             return null;
         }
         URL resourceURL = FileUtil.class.getClassLoader().getResource("static" + fileName);

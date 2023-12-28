@@ -1,20 +1,15 @@
 package com.youlpring.tomcat.apache.coyote.http11.response;
 
-import com.youlpring.tomcat.apache.coyote.http11.enums.FileType;
-import com.youlpring.tomcat.apache.util.FileUtil;
+import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
 
 public class ResponseBody {
 
-    private String body;
-    private FileType fileType;
+    private final String body;
+    private final ContentType contentType;
 
-    public ResponseBody(String url) {
-        if (url == null || url == "") {
-            return;
-        }
-        fileType = FileType.valueOfFilename(url);
-        String file = FileUtil.getFileReadString(url);
-        this.body = file;
+    public ResponseBody(String body, ContentType contentType) {
+        this.body = body;
+        this.contentType = contentType;
     }
 
     public String getBody() {
@@ -22,10 +17,10 @@ public class ResponseBody {
     }
 
     public String getContentType() {
-        if (fileType == null) {
+        if (contentType == null) {
             return null;
         }
-        return fileType.getContentType().getContentString();
+        return contentType.getContentString();
     }
 
     public int getBodyLength() {
