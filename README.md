@@ -29,17 +29,17 @@
 
 ## 2. Controller 만들기
 ### 🍎 FrontController 패턴 구현.
-* 컨트롤러 추상화 하여 URL에 따른 각 핸들러가 요청 처리. (doGet(), doPost() 등)
-* RequestHandlerMapping 구현.
-* 뷰 리졸버를 통해 동적 View 생성. 
+    * 컨트롤러 추상화 하여 URL에 따른 각 핸들러가 요청 처리. (doGet(), doPost() 등)
+    * RequestHandlerMapping 구현.
+    * 뷰 리졸버를 통해 동적 View 생성. 
 ### 🌿 동적 웹페이지 생성은 타임리프 적용.
-* ModelAndView 구현
-    - 동적 페이지에 Model 사용하여 동적 데이터 전달.
-    -  TemplateEngine 사용하여 직접 타임리프 사용.
+    * ModelAndView 구현
+      - 동적 페이지에 Model 사용하여 동적 데이터 전달.
+      -  TemplateEngine 사용하여 직접 타임리프 사용.
 ### 🍉 회원가입, 로그인 간단하게 구현.
-* 회원가입 시 인메모리 DB에 저장.
-* 로그인 성공시 팝업 띄우고 홈페이지로 리다이렉션.
-    - 쿠키 사용하여 저장은 다음 PR  진행 예정.
+    * 회원가입 시 인메모리 DB에 저장.
+    * 로그인 성공시 팝업 띄우고 홈페이지로 리다이렉션.
+      - 쿠키 사용하여 저장은 다음 PR  진행 예정.
 
 ## 3. Session 로그인 구현
   - 쿠키와 세션으로 간단한 로그인 기능 구현.
