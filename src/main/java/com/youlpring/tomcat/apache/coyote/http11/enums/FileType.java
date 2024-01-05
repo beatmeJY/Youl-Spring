@@ -4,7 +4,11 @@ public enum FileType {
     HTML(".html", ContentType.TEXT_HTML),
     CSS(".css", ContentType.TEXT_CSS),
     SCSS(".scss", ContentType.TEXT_CSS),
-    js(".js", ContentType.APPLICATION_JAVASCRIPT);
+    JS(".js", ContentType.APPLICATION_JAVASCRIPT),
+    JPG(".jpg", ContentType.IMAGE_JPEG),
+    PNG(".png", ContentType.IMAGE_PNG),
+    GIF(".gif", ContentType.IMAGE_GIF),
+    ICO(".ico", ContentType.IMAGE_X_ICON);
 
     private final String extension;
     private final ContentType contentType;
@@ -25,6 +29,11 @@ public enum FileType {
             }
         }
         return null;
+    }
+
+    public static boolean isStaticFile(String filename) {
+        FileType fileType = valueOfFilename(filename);
+        return fileType != null && !FileType.HTML.equals(fileType);
     }
 
     public ContentType getContentType() {

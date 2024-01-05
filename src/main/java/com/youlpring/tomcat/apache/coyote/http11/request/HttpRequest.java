@@ -1,5 +1,6 @@
 package com.youlpring.tomcat.apache.coyote.http11.request;
 
+import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpMethod;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import com.youlpring.tomcat.apache.util.IOUtil;
@@ -30,7 +31,20 @@ public class HttpRequest {
         }
         saveFirstHeader(line);
         this.requestHeader = new RequestHeader(bufferedReader);
-        this.requestBody = new RequestBody(bufferedReader);
+        saveBody(bufferedReader);
+    }
+
+    private void saveBody(BufferedReader bufferedReader) {
+        String headerValue = this.getHeaderValue(HttpHeaderConstant.CONTENT_LENGTH);
+        if (headerValue == null) {
+            return;
+        }
+        try {
+            this.requestBody = new RequestBody(bufferedReader, Integer.valueOf(headerValue));
+        } catch (NumberFormatException e) {
+            throw new HttpMessageException("HTTP 요청 Content-Length 정보가 올바르지 않습니다.");
+        }
+
     }
 
     private void saveFirstHeader(String firstHeader) {
@@ -78,12 +92,24 @@ public class HttpRequest {
         return protocol;
     }
 
-    public RequestHeader getRequestHeader() {
-        return requestHeader;
+    public String getHeaderValue(String key) {
+        if (requestHeader == null) {
+            throw new HttpMessageException("HTTP 헤더가 존재 하지 않습니다.");
+        }
+        return requestHeader.getHeaderValue(key);
     }
 
-    public RequestBody getRequestBody() {
-        return requestBody;
+    public String getBodyValue(String key) {
+        if (requestBody == null) {
+            return null;
+        }
+        return requestBody.getParam(key);
     }
 
+    public String getNotNullBodyValue(String key) {
+        if (requestBody == null || requestBody.getParam(key) == null) {
+            throw new IllegalArgumentException("요청 필수 값이 없습니다.");
+        }
+        return requestBody.getParam(key);
+    }
 }
