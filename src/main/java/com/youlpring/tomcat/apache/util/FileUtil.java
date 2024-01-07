@@ -12,7 +12,7 @@ import java.nio.file.Path;
 public class FileUtil {
 
     public static String getStaticFile(String fileName) {
-        if (fileName == null || "".equals(fileName)) {
+        if (fileName == null || fileName.isBlank()) {
             return null;
         }
         URL resourceURL = FileUtil.class.getClassLoader().getResource("static" + fileName);
