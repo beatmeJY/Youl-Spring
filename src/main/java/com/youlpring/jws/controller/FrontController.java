@@ -17,23 +17,16 @@ public class FrontController {
         try {
             log.info("요청 URL: {}", request.getUrl());
             getHandler(request).service(request, response);
-            if (response.getViewName() != null && !"".equals(response.getViewName())) {
+            if (response.getViewName() != null && !response.getViewName().isBlank()) {
                 ViewResolver.execute(response);
             }
         } catch (UserRegisterException e) {
             log.error("회원저장 오류", e);
-            response.setClientRedirect("/register", false);
+            response.clientRedirect("/register", false);
         }
-        
     }
 
     private static Controller getHandler(HttpRequest request) {
-        Controller controller = RequestHandlerMapping.getController(request.getUrl());
-        if (controller == null) {
-            return NotFoundController.INSTANCE;
-        }
-        return controller;
+        return RequestHandlerMapping.getController(request.getUrl());
     }
-
-
 }
