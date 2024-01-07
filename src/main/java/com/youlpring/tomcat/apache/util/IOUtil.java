@@ -15,7 +15,7 @@ public class IOUtil {
         }
     }
 
-    public static char[] read(BufferedReader bufferedReader, int contentLength) {
+    public static char[] readByLength(BufferedReader bufferedReader, int contentLength) {
         try {
             char[] bodyChars = new char[contentLength];
             bufferedReader.read(bodyChars, 0, contentLength);

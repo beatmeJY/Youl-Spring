@@ -16,7 +16,7 @@ public class InMemoryUserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
 
     private static final Map<String, User> database = new ConcurrentHashMap<>();
-    private static AtomicLong generateId = new AtomicLong();
+    private static AtomicLong atomicId = new AtomicLong();
 
     static {
         final User user1 = new User(null, "winter", "1234", "winter@gmail.com");
@@ -33,17 +33,14 @@ public class InMemoryUserRepository {
                 throw new UserRegisterException("이미 존재하는 계정입니다.");
             }
             if (user.getId() == null) {
-                user.setId(generateUserId());
+                user.setId(incrementAtomicId());
             }
             return user;
         });
-        for (String s : database.keySet()) {
-            log.info("{}", database.get(s));
-        }
     }
 
-    private static Long generateUserId() {
-        return generateId.incrementAndGet();
+    private static Long incrementAtomicId() {
+        return atomicId.incrementAndGet();
     }
 
     public static User findByAccount(String account) {
