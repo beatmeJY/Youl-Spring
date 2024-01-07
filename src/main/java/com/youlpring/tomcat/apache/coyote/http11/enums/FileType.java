@@ -8,7 +8,8 @@ public enum FileType {
     JPG(".jpg", ContentType.IMAGE_JPEG),
     PNG(".png", ContentType.IMAGE_PNG),
     GIF(".gif", ContentType.IMAGE_GIF),
-    ICO(".ico", ContentType.IMAGE_X_ICON);
+    ICO(".ico", ContentType.IMAGE_X_ICON),
+    txt(".txt", ContentType.TEXT_PLAIN);
 
     private final String extension;
     private final ContentType contentType;
