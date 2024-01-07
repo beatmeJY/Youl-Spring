@@ -30,21 +30,19 @@ public class ViewResolver {
     }
 
     public static void execute(HttpResponse response) {
-        if (response.getViewName() == null || "".equals(response.getViewName())) {
+        if (response.getViewName() == null || response.getViewName().isBlank()) {
             return;
         }
-        response.setResponseBody(
-            new ResponseBody(
-                viewThymeleafHtml(response.getModelAndView()),
-                ContentType.TEXT_HTML
-            )
+        response.createResponseBody(
+            viewThymeleafHtml(response.getModelAndView()),
+            ContentType.TEXT_HTML
         );
     }
 
     private static String viewThymeleafHtml(ModelAndView modelAndView) {
         Context context = new Context();
-        for (String key : modelAndView.getKeys()) {
-            context.setVariable(key, modelAndView.getValue(key));
+        for (String key : modelAndView.getModelKeys()) {
+            context.setVariable(key, modelAndView.getModelValue(key));
         }
         return templateEngine.process(modelAndView.getViewName(), context);
     }

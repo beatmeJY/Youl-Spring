@@ -17,14 +17,14 @@ public class RequestBody {
         if (!IOUtil.ready(bufferedReader)) {
             return;
         }
-        char[] bodyChars = IOUtil.read(bufferedReader, contentLength);
+        char[] bodyChars = IOUtil.readByLength(bufferedReader, contentLength);
         body = String.valueOf(bodyChars);
         if (body != null) {
-            setParamMap();
+            createParamMap();
         }
     }
 
-    private void setParamMap() {
+    private void createParamMap() {
         String[] params = body.split("&");
         for (String param : params) {
             String[] keyValue = param.split("=");

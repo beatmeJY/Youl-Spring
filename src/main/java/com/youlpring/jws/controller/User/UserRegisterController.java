@@ -29,6 +29,6 @@ public class UserRegisterController extends AbstractController {
             throw new UserRegisterException("이미 존재하는 계정입니다.");
         }
         InMemoryUserRepository.save(newUser);
-        response.setClientRedirect("/login", true);
+        response.clientRedirect("/login", true);
     }
 }

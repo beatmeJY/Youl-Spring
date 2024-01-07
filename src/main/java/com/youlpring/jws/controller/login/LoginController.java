@@ -30,6 +30,6 @@ public class LoginController extends AbstractController {
         } catch (IllegalArgumentException e) {
             throw new LoginException("로그인 입력 정보가 올바르지 않습니다.");
         }
-        response.setClientRedirect("/", true);
+        response.clientRedirect("/", true);
     }
 }

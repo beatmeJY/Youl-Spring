@@ -40,7 +40,7 @@ public class HttpRequest {
             return;
         }
         try {
-            this.requestBody = new RequestBody(bufferedReader, Integer.valueOf(headerValue));
+            this.requestBody = new RequestBody(bufferedReader, Integer.parseInt(headerValue));
         } catch (NumberFormatException e) {
             throw new HttpMessageException("HTTP 요청 Content-Length 정보가 올바르지 않습니다.");
         }
@@ -64,11 +64,11 @@ public class HttpRequest {
         String[] split = uri.split("\\?");
         url = split[0];
         if (split.length > 1) {
-            setQueryParameter(split[1]);
+            createQueryParameter(split[1]);
         }
     }
 
-    private void setQueryParameter(String parameters) {
+    private void createQueryParameter(String parameters) {
         String[] parameterArray = parameters.split("&");
         if (parameterArray.length < 1) {
             return;

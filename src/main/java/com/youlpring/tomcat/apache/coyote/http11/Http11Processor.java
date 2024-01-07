@@ -5,7 +5,6 @@ import com.youlpring.tomcat.apache.coyote.Processor;
 import com.youlpring.tomcat.apache.coyote.http11.enums.FileType;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
-import com.youlpring.tomcat.apache.coyote.http11.response.ResponseBody;
 import com.youlpring.tomcat.apache.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,11 +49,9 @@ public class Http11Processor implements Runnable, Processor {
     }
 
     private void staticFileProcess(HttpRequest request, HttpResponse response) {
-        response.setResponseBody(
-            new ResponseBody(
-                FileUtil.getStaticFile(request.getUrl()),
-                FileType.valueOfFilename(request.getUrl()).getContentType()
-            )
+        response.createResponseBody(
+            FileUtil.getStaticFile(request.getUrl()),
+            FileType.valueOfFilename(request.getUrl()).getContentType()
         );
     }
 }
