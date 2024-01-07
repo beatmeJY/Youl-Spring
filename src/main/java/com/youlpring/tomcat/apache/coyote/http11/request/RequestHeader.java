@@ -18,7 +18,7 @@ public class RequestHeader {
 
     public RequestHeader(BufferedReader bufferedReader) {
         String line;
-        while ((line = IOUtil.readLine(bufferedReader)) != null && !"".equals(line)) {
+        while ((line = IOUtil.readLine(bufferedReader)) != null && !line.isBlank()) {
             String[] header = line.split(": ");
             headerMap.put(header[0], header[1]);
         }

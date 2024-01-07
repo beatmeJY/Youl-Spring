@@ -22,14 +22,14 @@ public class HttpResponse {
 
     public HttpResponse() throws IOException {}
 
-    public void setResponseBody(ResponseBody body) {
-        if (body == null || body.getBodyLength() == 0) {
+    public void createResponseBody(String body, ContentType contentType) {
+        if (body == null || body.isBlank()) {
             return;
         }
-        this.responseBody = body;
-        responseHeader.setHeader(HttpHeaderConstant.CONTENT_LENGTH, this.responseBody.getBodyLength());
+        this.responseBody = new ResponseBody(body, contentType);
+        responseHeader.addHeader(HttpHeaderConstant.CONTENT_LENGTH, this.responseBody.getBodyLength());
         if (this.responseBody.getContentType() != null) {
-            responseHeader.setHeader(HttpHeaderConstant.CONTENT_TYPE, this.responseBody.getContentType());
+            responseHeader.addHeader(HttpHeaderConstant.CONTENT_TYPE, this.responseBody.getContentType());
         }
     }
 
@@ -39,22 +39,22 @@ public class HttpResponse {
         }
     }
 
-    public void setServerRedirect(String url) {
+    public void serverRedirect(String url) {
         setHttpStatus(HttpStatus.FOUND);
-        responseHeader.setHeader("Location", url);
+        responseHeader.addHeader("Location", url);
     }
 
-    public void setClientRedirect(String url, boolean successFlag) {
+    public void clientRedirect(String url, boolean successFlag) {
         if (successFlag) {
             setHttpStatus(HttpStatus.OK);
         } else {
             setHttpStatus(HttpStatus.FOUND);
         }
-        setResponseBody(new ResponseBody(url, ContentType.TEXT_PLAIN));
+        createResponseBody(url, ContentType.TEXT_PLAIN);
     }
 
-    public void setValue(String key, Object value) {
-        modelAndView.setModel(key, value);
+    public void addModel(String key, Object value) {
+        modelAndView.addModel(key, value);
     }
 
     public void setViewName(String viewName) {

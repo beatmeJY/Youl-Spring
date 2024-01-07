@@ -16,7 +16,7 @@ public class ResponseHeader {
     public ResponseHeader() {
     }
 
-    public void setHeader(String headerKey, Object value) {
+    public void addHeader(String headerKey, Object value) {
         headers.put(headerKey, value);
     }
 

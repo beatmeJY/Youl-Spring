@@ -11,6 +11,26 @@ public class DefaultController extends AbstractController {
 
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
-        response.setViewName("/index");
+        response.serverRedirect("/");
+    }
+
+    @Override
+    public void doPost(HttpRequest request, HttpResponse response) {
+        response.serverRedirect("/");
+    }
+
+    @Override
+    public void doPatch(HttpRequest request, HttpResponse response) {
+        response.serverRedirect("/");
+    }
+
+    @Override
+    public void doPut(HttpRequest request, HttpResponse response) {
+        response.serverRedirect("/");
+    }
+
+    @Override
+    public void doDelete(HttpRequest request, HttpResponse response) {
+        response.serverRedirect("/");
     }
 }

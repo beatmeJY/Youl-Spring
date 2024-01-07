@@ -18,13 +18,13 @@ public class RequestHandlerMapping {
     private RequestHandlerMapping() {}
 
     private static void saveControllerMap() {
-        controllerMap.put("/", DefaultController.INSTANCE);
+        controllerMap.put("/", HomeController.INSTANCE);
         controllerMap.put("/login", LoginController.INSTANCE);
         controllerMap.put("/user", UserController.INSTANCE);
         controllerMap.put("/register", UserRegisterController.INSTANCE);
     }
 
     public static Controller getController(String url) {
-        return controllerMap.get(url);
+        return controllerMap.getOrDefault(url, DefaultController.INSTANCE);
     }
 }

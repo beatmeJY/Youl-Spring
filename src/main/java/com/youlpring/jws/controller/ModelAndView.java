@@ -12,11 +12,11 @@ public class ModelAndView {
 
     public ModelAndView() {}
 
-    public List<String> getKeys() {
+    public List<String> getModelKeys() {
         return new ArrayList<>(model.keySet());
     }
 
-    public Object getValue(String key) {
+    public Object getModelValue(String key) {
         return model.get(key);
     }
 
@@ -24,7 +24,7 @@ public class ModelAndView {
         return viewName;
     }
 
-    public void setModel(String key, Object value) {
+    public void addModel(String key, Object value) {
         model.put(key, value);
     }
 
