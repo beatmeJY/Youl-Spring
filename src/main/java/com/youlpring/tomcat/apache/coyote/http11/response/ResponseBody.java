@@ -16,7 +16,7 @@ public class ResponseBody {
         return body;
     }
 
-    public String getContentType() {
+    public String getContentTypeString() {
         if (contentType == null) {
             return null;
         }

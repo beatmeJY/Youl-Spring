@@ -38,7 +38,7 @@ public class RequestBody {
         return paramMap.get(key);
     }
 
-    public List<String> getParamKey() {
+    public List<String> getParamKeys() {
         return new ArrayList<>(paramMap.keySet());
     }
 }
