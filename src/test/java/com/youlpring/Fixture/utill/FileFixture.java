@@ -2,7 +2,9 @@ package com.youlpring.Fixture.utill;
 
 import com.youlpring.tomcat.apache.util.FileUtil;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -21,7 +23,7 @@ public final class FileFixture {
         try {
             URI uri = FileUtil.class.getClassLoader().getResource(FileFixture.STATIC_FILE_PATH).toURI();
             return Files.readString(Path.of(uri));
-        } catch (Exception e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("정적 파일 읽기에 실패하였습니다.");
         }
     }
@@ -30,7 +32,7 @@ public final class FileFixture {
         try {
             URI uri = FileUtil.class.getClassLoader().getResource(FileFixture.DYNAMIC_FILE_PATH).toURI();
             return Files.readString(Path.of(uri));
-        } catch (Exception e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("동적 파일 읽기에 실패하였습니다.");
         }
     }
