@@ -5,7 +5,9 @@ import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
 
-public class ResponseFixture {
+public final class ResponseFixture {
+
+    private ResponseFixture() {}
 
     public static String getHttpResponseHeader(int length, ContentType contentType) {
         return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + "\r\n"

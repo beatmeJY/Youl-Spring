@@ -6,7 +6,9 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileFixture {
+public final class FileFixture {
+
+    private FileFixture() {}
 
     public static final String STATIC_FILE = "/youlpring.txt";
     public static final String DYNAMIC_URL = "/index";

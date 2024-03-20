@@ -8,7 +8,9 @@ import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestFixture {
+public final class RequestFixture {
+
+    private RequestFixture() {}
 
     public static final String STATIC_FILE_REQUEST_URL = "/youlpring.txt";
     public static final String HOME_REQUEST_URL = "/index";

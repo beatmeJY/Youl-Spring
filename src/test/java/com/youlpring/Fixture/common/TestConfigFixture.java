@@ -1,6 +1,8 @@
 package com.youlpring.Fixture.common;
 
-public class TestConfigFixture {
+public final class TestConfigFixture {
+
+    private TestConfigFixture() {}
 
     public static final String TEST_SERVER_Protocol = "http://";
     public static final String TEST_SERVER_IP = "127.0.0.1";
