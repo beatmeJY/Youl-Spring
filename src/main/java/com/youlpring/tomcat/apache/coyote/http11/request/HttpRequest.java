@@ -38,7 +38,8 @@ public class HttpRequest {
         String headerValue = this.getHeaderValue(HttpHeaderConstant.CONTENT_LENGTH);
         if (headerValue == null) {
             return;
-        } try {
+        }
+        try {
             this.requestBody = new RequestBody(bufferedReader, Integer.parseInt(headerValue));
         } catch (NumberFormatException e) {
             throw new HttpMessageException("HTTP 요청 Content-Length 정보가 올바르지 않습니다.");
