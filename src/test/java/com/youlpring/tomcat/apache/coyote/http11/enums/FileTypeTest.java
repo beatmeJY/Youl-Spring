@@ -2,6 +2,8 @@ package com.youlpring.tomcat.apache.coyote.http11.enums;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,13 +31,16 @@ class FileTypeTest {
         assertNull(FileType.valueOfFilename(unKnownType));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {cssType, scssType, jpgType})
+    @DisplayName("css, js 확장자 등은 정적 파일이다.")
+    void isStaticFile(String type) {
+        assertTrue(FileType.isStaticFile(type));
+    }
+
     @Test
     @DisplayName("HTML 확장자는 동적처리하므로 정적파일 처리하지 않는다.")
-    void isStaticFile() {
-        assertTrue(FileType.isStaticFile(cssType));
-        assertTrue(FileType.isStaticFile(scssType));
-        assertTrue(FileType.isStaticFile(jpgType));
-
+    void isNotStaticFile() {
         assertFalse(FileType.isStaticFile(htmlType));
     }
 
