@@ -17,8 +17,8 @@ class HttpProtocolTest {
     }
     
     @Test
-    @DisplayName("알 수 없는 Protocol 은 NULL을 반환한다.")
+    @DisplayName("알 수 없는 Protocol 은 HTTP_1_1로 반환한다.")
     void notFoundValueOfString() {
-        assertNull(HttpProtocol.valueOfString("HTTP/TEST"));
+        assertEquals(HttpProtocol.HTTP_1_1, HttpProtocol.valueOfString("HTTP/TEST"));
     }
 }
