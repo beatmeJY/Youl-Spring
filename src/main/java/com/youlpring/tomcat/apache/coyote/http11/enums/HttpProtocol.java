@@ -17,7 +17,7 @@ public enum HttpProtocol {
                 return httpProtocol;
             }
         }
-        return null;
+        return HTTP_1_1;
     }
 
     public String getProtocol() {
