@@ -10,12 +10,9 @@ public class Tomcat {
 
     private static final Logger log = LoggerFactory.getLogger(Tomcat.class);
 
-    public void start() {
-        var connector = new Connector();
+    public void start(Connector connector) {
         connector.start();
-
         try {
-            // make the application wait until we press any key.
             System.in.read();
         } catch (IOException e) {
             log.error(e.getMessage(), e);

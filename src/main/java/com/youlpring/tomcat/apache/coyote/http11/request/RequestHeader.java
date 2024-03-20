@@ -20,7 +20,9 @@ public class RequestHeader {
         String line;
         while ((line = IOUtil.readLine(bufferedReader)) != null && !line.isBlank()) {
             String[] header = line.split(": ");
-            headerMap.put(header[0], header[1]);
+            if (header.length == 2) {
+                headerMap.put(header[0], header[1]);
+            }
         }
     }
 

@@ -8,8 +8,6 @@ import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class HttpResponse {
 
     private static final Logger log = LoggerFactory.getLogger(HttpResponse.class);
@@ -20,7 +18,7 @@ public class HttpResponse {
     private ResponseBody responseBody;
     private final ModelAndView modelAndView = new ModelAndView();
 
-    public HttpResponse() throws IOException {}
+    public HttpResponse() {}
 
     public void createResponseBody(String body, ContentType contentType) {
         if (body == null || body.isBlank()) {
@@ -28,8 +26,8 @@ public class HttpResponse {
         }
         this.responseBody = new ResponseBody(body, contentType);
         responseHeader.addHeader(HttpHeaderConstant.CONTENT_LENGTH, this.responseBody.getBodyLength());
-        if (this.responseBody.getContentType() != null) {
-            responseHeader.addHeader(HttpHeaderConstant.CONTENT_TYPE, this.responseBody.getContentType());
+        if (this.responseBody.getContentTypeString() != null) {
+            responseHeader.addHeader(HttpHeaderConstant.CONTENT_TYPE, this.responseBody.getContentTypeString());
         }
     }
 
@@ -64,7 +62,6 @@ public class HttpResponse {
     private String getFirstHeader() {
         return httpProtocol.getProtocol() + " " + httpStatus.getHeaderString();
     }
-
 
     public ModelAndView getModelAndView() {
         return modelAndView;

@@ -19,6 +19,8 @@ public class RequestHandlerMapping {
 
     private static void saveControllerMap() {
         controllerMap.put("/", HomeController.INSTANCE);
+        controllerMap.put("/home", HomeController.INSTANCE);
+        controllerMap.put("/index", HomeController.INSTANCE);
         controllerMap.put("/login", LoginController.INSTANCE);
         controllerMap.put("/user", UserController.INSTANCE);
         controllerMap.put("/register", UserRegisterController.INSTANCE);

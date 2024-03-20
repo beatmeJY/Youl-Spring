@@ -13,11 +13,11 @@ public enum HttpProtocol {
 
     public static HttpProtocol valueOfString(String value) {
         for (HttpProtocol httpProtocol : HttpProtocol.values()) {
-            if (httpProtocol.name().equals(value)) {
+            if (httpProtocol.protocol.equals(value)) {
                 return httpProtocol;
             }
         }
-        return null;
+        return HTTP_1_1;
     }
 
     public String getProtocol() {

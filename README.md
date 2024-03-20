@@ -4,45 +4,39 @@
 * 톰캣, 서블릿 등을 만들어 보기 위해 초기 세팅만 우테코 미션 기본세팅을 참조하였습니다.  
   - 초기 세팅 참고 코드 : https://github.com/woowacourse/jwp-dashboard-http
 
+### 실행 방법  
+서버 시작 후 브라우저 창에 다음과 같이 입력: http://localhost:8080/index.html
 
-### 실행 환경 (현재 1. 정적파일띄우기 까지 진행)
-    서버 시작 후 브라우저 창에 다음과 같이 입력: http://localhost:8080/index.html
+### 프로젝트 진행 순서
 
-# 프로젝트 진행 순서 (PR)
-## 1. 정적파일띄우기 (톰캣 구현)
-### 🏠 http://localhost:8080/index.html 입력 시 화면에 index.html 보여주기.
-    - import 된 css, js도 전송해야함.
-    - 요청과 응답 시 Request와 Response 객체 만들어야 함.
 
-### 🦅 Request
-    - protocol, URL, Method 저장.
-    - URI QueryString 파싱하여 저장
-    - HTTP Header 정보 파싱하여 저장. 
-    - HTTP Body 저장.
-### 🦐 Response
-    - Header 첫번째 줄 세팅.(프로토콜, 응답코드)
-    - index.html 등 파일 읽어서 Body에 저장.
-    - 헤더 정보 수정
-      - Context-type 파일에 따라 유동적으로 바꾸어 전송해야 함.
-      - Context-Length 본문 바이트 길이로 저장.
-    
+# 🌈 Branch 주요 진행내용 (PR)
+## [(#1) [Feat] 정적파일띄우기](https://github.com/beatmeJY/Youlpring/pull/1)
+### Socket을 열고 API 요청을 보내 InputStream 으로 데이터를 직접 뜯어보고, 
+### 해당 내용을 담을 Request 와 Response 객체를 만든다.
+#### - Request
+ * Protocol / URI / Method 저장.
+ * Hearder 정보 저장.
+ * Body 정보 저장.
+#### - Response
+ * 응답 Header 세팅
+ * View를 Body 객체에 저장 후 Byte 로 변환하여 반환 
 
-## 2. Controller 만들기
-### 🍎 FrontController 패턴 구현.
-    * 컨트롤러 추상화 하여 URL에 따른 각 핸들러가 요청 처리. (doGet(), doPost() 등)
-    * RequestHandlerMapping 구현.
-    * 뷰 리졸버를 통해 동적 View 생성. 
-### 🌿 동적 웹페이지 생성은 타임리프 적용.
-    * ModelAndView 구현
-      - 동적 페이지에 Model 사용하여 동적 데이터 전달.
-      -  TemplateEngine 사용하여 직접 타임리프 사용.
-### 🍉 회원가입, 로그인 간단하게 구현.
-    * 회원가입 시 인메모리 DB에 저장.
-    * 로그인 성공시 팝업 띄우고 홈페이지로 리다이렉션.
-      - 쿠키 사용하여 저장은 다음 PR  진행 예정.
+## [(#2) [Feat] 추상Contoller 만들기](https://github.com/beatmeJY/Youlpring/pull/2)
+### 추상 컨트롤러를 생성하고 이를 구현한 각 컨트롤러를 구현한다.
+ - [상속과 구현의 차이점은?](https://github.com/beatmeJY/Youlpring/pull/2#discussion_r1443098448)
+ - [과연 싱글톤 일까?](https://github.com/beatmeJY/Youlpring/pull/2#discussion_r1443093289) 
+### 프론트 컨트롤러 패턴을 사용하여 이 컨트롤러들을 동적으로 호출하여 사용한다.
+- [URL에 매핑된 컨트롤러가 없는 경우에는 어떻게 처리하면 좋을까?](https://github.com/beatmeJY/Youlpring/pull/2#discussion_r1443096258)
+### [동적 페이지는 타임리프를 적용한다.](https://github.com/beatmeJY/Youlpring/pull/2/commits/0ce717690830d1e3437065eebc8a289ada14d748)
+- 이 때 동적 페이지에 Model 을 사용하여 동적으로 바뀔 데이터도 전송하여 준다.
 
-## 3. Session 로그인 구현
-  - 쿠키와 세션으로 간단한 로그인 기능 구현.
+## [(#3) [Refactor] 수정사항반영](https://github.com/beatmeJY/Youlpring/pull/3)
+### 대부분 메소드나 변수명을 보다 명확한 네이밍으로 수정.
 
-## 4. 멀티쓰레드 Thread Pool 적용
-  - Thread Pool 로 효율적으로 Thread 관리.
+## [(#4) [Test] 테스트코드작성](https://github.com/beatmeJY/Youlpring/pull/4)
+### 미션 1단계의 Socket 과 관련된 코드들 모두 단위 테스트 작성.
+ - [Fixture 상속을 방지하려면?](https://github.com/beatmeJY/Youlpring/pull/4#discussion_r1531506869)
+ - [반복코드는 ParameterizedTests 사용하기](https://github.com/beatmeJY/Youlpring/pull/4#discussion_r1531526117)
+   - [반복코드 제거](https://github.com/beatmeJY/Youlpring/pull/4/commits/0372c7f45a94985b8d4475959417bfc39d7b9b21)
+ - [Stubbing을 통해 실제 Socket 통신에서의 상황을 Unit 테스트 한다.](https://github.com/beatmeJY/Youlpring/blob/01990e31e7ae81b659e7410bee3cbe6a2ba9f035/src/test/java/com/youlpring/tomcat/apache/coyote/http11/request/HttpRequestTest.java#L64)
