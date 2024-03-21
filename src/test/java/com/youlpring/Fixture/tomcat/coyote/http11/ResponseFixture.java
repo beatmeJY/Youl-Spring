@@ -7,7 +7,9 @@ import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
 
 public final class ResponseFixture {
 
-    private ResponseFixture() {}
+    private ResponseFixture() {
+        throw new AssertionError("올바른 방식의 객체를 생성해주세요");
+    }
 
     public static String getHttpResponseHeader(int length, ContentType contentType) {
         return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + "\r\n"

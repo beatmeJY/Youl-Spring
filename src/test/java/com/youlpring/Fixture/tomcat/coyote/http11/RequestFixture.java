@@ -10,7 +10,9 @@ import java.util.Map;
 
 public final class RequestFixture {
 
-    private RequestFixture() {}
+    private RequestFixture() {
+        throw new AssertionError("올바른 방식의 객체를 생성해주세요");
+    }
 
     public static final String STATIC_FILE_REQUEST_URL = "/youlpring.txt";
     public static final String HOME_REQUEST_URL = "/index";
