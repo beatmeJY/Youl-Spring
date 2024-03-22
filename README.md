@@ -46,3 +46,4 @@
 
 ## [Test] 테스트코드작성 ([#5](https://github.com/beatmeJY/Youlpring/pull/5))
 ### 미션 2단계의 Controller, DB 관련된 코드들 모두 단위 테스트 작성.
+![image](https://github.com/beatmeJY/Youlpring/assets/54700818/82cee254-311c-46dd-b8eb-8ea98606020e)
