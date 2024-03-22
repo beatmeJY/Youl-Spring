@@ -26,7 +26,7 @@ public class User {
 
     public void setId(Long newId) {
         if (id != null) {
-            throw new UserRegisterException("이미 등록된 계정입니다.");
+            throw new UserRegisterException("이미 존재하는 계정입니다.");
         }
         this.id = newId;
     }
@@ -37,6 +37,14 @@ public class User {
 
     public Long getId() {
         return this.id;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
