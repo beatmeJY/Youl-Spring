@@ -21,8 +21,8 @@ class RequestBodyTest {
     void getParamSuccess() throws IOException {
         RequestBody requestBody = saveRequestBody();
 
-        assertEquals(2, RequestFixture.bodyMap.size());
-        assertEquals(2, RequestFixture.bodyMap.keySet().size());
+        assertEquals(3, RequestFixture.bodyMap.size());
+        assertEquals(3, RequestFixture.bodyMap.keySet().size());
 
         for (String key : RequestFixture.bodyMap.keySet()) {
             assertEquals(RequestFixture.bodyMap.get(key), requestBody.getParam(key));
@@ -34,7 +34,7 @@ class RequestBodyTest {
     void getParamKeysSuccess() throws IOException {
         RequestBody requestBody = saveRequestBody();
 
-        assertEquals(2, requestBody.getParamKeys().size());
+        assertEquals(3, requestBody.getParamKeys().size());
 
         for (String paramKey : requestBody.getParamKeys()) {
             assertEquals(RequestFixture.bodyMap.get(paramKey), requestBody.getParam(paramKey));

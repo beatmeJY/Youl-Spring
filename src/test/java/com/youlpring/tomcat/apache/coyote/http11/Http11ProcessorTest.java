@@ -23,11 +23,7 @@ class Http11ProcessorTest {
         OutputStream mockOutputStream = new ByteArrayOutputStream();
         callByApi(mockOutputStream, RequestFixture.STATIC_FILE_REQUEST_URL);
 
-        String expectedHeader = ResponseFixture.getHttpResponseHeader(FileFixture.readStaticTextFile().length(), ContentType.TEXT_PLAIN);
-        String expectedBody = FileFixture.readStaticTextFile();
-        String expectedResponse = expectedHeader + expectedBody;
-
-        assertEquals(expectedResponse, mockOutputStream.toString());
+        assertEquals(ResponseFixture.getExpectedStaticFile(), mockOutputStream.toString());
     }
 
     @Test
@@ -36,11 +32,7 @@ class Http11ProcessorTest {
         OutputStream mockOutputStream = new ByteArrayOutputStream();
         callByApi(mockOutputStream, RequestFixture.HOME_REQUEST_URL);
 
-        String expectedHeader = ResponseFixture.getHttpResponseHeader(FileFixture.readDynamicFile().length(), ContentType.TEXT_HTML);
-        String expectedBody = FileFixture.readDynamicFile();
-        String expectedResponse = expectedHeader + expectedBody;
-
-        assertEquals(expectedResponse, mockOutputStream.toString());
+        assertEquals(ResponseFixture.getExpectedHomePage(), mockOutputStream.toString());
     }
 
     private void callByApi(OutputStream outputStream, String url) throws IOException {

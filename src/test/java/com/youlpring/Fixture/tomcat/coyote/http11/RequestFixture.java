@@ -17,11 +17,19 @@ public final class RequestFixture {
     public static final String STATIC_FILE_REQUEST_URL = "/youlpring.txt";
     public static final String HOME_REQUEST_URL = "/index";
 
+    public final static String ACCOUNT_KEY = "account";
+    public final static String ACCOUNT_VALUE = "user";
+    public final static String PASSWORD_KEY = "password";
+    public final static String PASSWORD_VALUE = "1234";
+    public final static String EMAIL_KEY = "email";
+    public final static String EMAIL_VALUE = "test@email.com";
+
     public static final Map<String, Object> bodyMap = new HashMap<>();
 
     static {
-        bodyMap.put("name", "test");
-        bodyMap.put("gender", "MAN");
+        bodyMap.put(ACCOUNT_KEY, ACCOUNT_VALUE);
+        bodyMap.put(PASSWORD_KEY, PASSWORD_VALUE);
+        bodyMap.put(EMAIL_KEY, EMAIL_VALUE);
     }
 
     public static String requestAll() {
