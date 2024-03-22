@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@DisplayName("[unit] Http11Processor 테스트")
+@DisplayName("[Unit] Http11Processor 테스트")
 class Http11ProcessorTest {
 
     @Test
