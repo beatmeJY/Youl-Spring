@@ -15,16 +15,20 @@ public class UserRegisterController extends AbstractController {
 
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
-        response.setViewName("/register.html");
+        response.setViewName("/register");
     }
 
     @Override
     public void doPost(HttpRequest request, HttpResponse response) {
-        User newUser = new User(
-            request.getNotNullBodyValue("account"),
-            request.getNotNullBodyValue("password"),
-            request.getNotNullBodyValue("email")
-        );
+        User newUser;
+        try {
+            newUser = new User(
+                    request.getNotNullBodyValue("account"),
+                    request.getNotNullBodyValue("password"),
+                    request.getNotNullBodyValue("email"));
+        } catch (IllegalArgumentException e) {
+            throw new UserRegisterException("회원 저장 시 올바르지 않는 파라미터 값입니다.");
+        }
         if (InMemoryUserRepository.findByAccount(newUser.getAccount()) != null) {
             throw new UserRegisterException("이미 존재하는 계정입니다.");
         }
