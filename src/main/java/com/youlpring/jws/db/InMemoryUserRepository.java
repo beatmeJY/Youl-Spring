@@ -43,4 +43,8 @@ public class InMemoryUserRepository {
     public static void deleteUser(String account) {
         database.remove(account);
     }
+
+    public static void clear() {
+        database.clear();
+    }
 }

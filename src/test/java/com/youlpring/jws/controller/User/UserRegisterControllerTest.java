@@ -1,5 +1,6 @@
 package com.youlpring.jws.controller.User;
 
+import com.youlpring.common.db.InitDbBase;
 import com.youlpring.jws.db.InMemoryUserRepository;
 import com.youlpring.jws.exception.UserRegisterException;
 import com.youlpring.jws.model.User;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.Mockito.*;
 
 @DisplayName("[Unit] UserRegisterController 테스트")
-class UserRegisterControllerTest {
+class UserRegisterControllerTest extends InitDbBase {
 
     public static final UserRegisterController userRegisterController  = UserRegisterController.INSTANCE;
 
@@ -33,40 +34,33 @@ class UserRegisterControllerTest {
     @Test
     @DisplayName("회원가입 요청에 성공한다.")
     void doPostSuccess() {
-        try {
-            HttpRequest mockRequest = mock(HttpRequest.class);
-            HttpResponse mockResponse = mock(HttpResponse.class);
-            when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-            when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
-            when(mockRequest.getNotNullBodyValue(EMAIL_KEY)).thenReturn(EMAIL_VALUE);
+        HttpRequest mockRequest = mock(HttpRequest.class);
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
+        when(mockRequest.getNotNullBodyValue(EMAIL_KEY)).thenReturn(EMAIL_VALUE);
 
-            userRegisterController.doPost(mockRequest, mockResponse);
+        userRegisterController.doPost(mockRequest, mockResponse);
 
-            assertEquals(ACCOUNT_VALUE, InMemoryUserRepository.findByAccount(ACCOUNT_VALUE).getAccount());
-            verify(mockResponse).clientRedirect("/login", true);
-        } finally {
-            InMemoryUserRepository.deleteUser(ACCOUNT_VALUE);
-        }
+        assertEquals(ACCOUNT_VALUE, InMemoryUserRepository.findByAccount(ACCOUNT_VALUE).getAccount());
+        verify(mockResponse).clientRedirect("/login", true);
+
     }
 
     @Test
     @DisplayName("이미 존재하는 유저는 가입에 실패한다.")
     void doPostFailByExisted() {
         InMemoryUserRepository.save(new User(ACCOUNT_VALUE, PASSWORD_VALUE, EMAIL_KEY));
-        try {
-            HttpRequest mockRequest = mock(HttpRequest.class);
-            HttpResponse mockResponse = mock(HttpResponse.class);
-            when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-            when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
 
-            assertThrowsExactly(
-                    UserRegisterException.class,
-                    () -> userRegisterController.doPost(mockRequest, mockResponse),
-                    "이미 존재하는 계정입니다.");
-        } finally {
-            InMemoryUserRepository.deleteUser(ACCOUNT_VALUE);
-        }
+        HttpRequest mockRequest = mock(HttpRequest.class);
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
 
+        assertThrowsExactly(
+                UserRegisterException.class,
+                () -> userRegisterController.doPost(mockRequest, mockResponse),
+                "이미 존재하는 계정입니다.");
     }
 
     @Test

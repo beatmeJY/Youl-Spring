@@ -1,5 +1,6 @@
 package com.youlpring.jws.controller.login;
 
+import com.youlpring.common.db.InitDbBase;
 import com.youlpring.jws.db.InMemoryUserRepository;
 import com.youlpring.jws.exception.LoginException;
 import com.youlpring.jws.model.User;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.Mockito.*;
 
 @DisplayName("[Unit] LoginController 테스트")
-class LoginControllerTest {
+class LoginControllerTest extends InitDbBase {
 
     private final static LoginController loginController = LoginController.INSTANCE;
 
@@ -33,19 +34,16 @@ class LoginControllerTest {
     @DisplayName("로그인 요청에 성공한다.")
     void doPostSuccess() {
         InMemoryUserRepository.save(new User(ACCOUNT_VALUE, PASSWORD_VALUE, EMAIL_KEY));
-        try {
-            HttpRequest mockRequest = mock(HttpRequest.class);
-            HttpResponse mockResponse = mock(HttpResponse.class);
-            when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-            when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
 
-            loginController.doPost(mockRequest, mockResponse);
+        HttpRequest mockRequest = mock(HttpRequest.class);
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
 
-            //TODO - 추후 세션데이터 구현 시 응답 객체의 유저정보와 비교문 추가
-            verify(mockResponse).clientRedirect("/", true);
-        } finally {
-            InMemoryUserRepository.deleteUser(ACCOUNT_VALUE);
-        }
+        loginController.doPost(mockRequest, mockResponse);
+
+        //TODO - 추후 세션데이터 구현 시 응답 객체의 유저정보와 비교문 추가
+        verify(mockResponse).clientRedirect("/", true);
     }
 
     @Test
