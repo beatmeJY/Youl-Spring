@@ -18,13 +18,6 @@ public class InMemoryUserRepository {
     private static final Map<String, User> database = new ConcurrentHashMap<>();
     private static AtomicLong atomicId = new AtomicLong();
 
-    static {
-        final User user1 = new User(null, "winter", "1234", "winter@gmail.com");
-        final User user2 = new User(null, "summer", "1234", "summer@gmail.com");
-        save(user1);
-        save(user2);
-    }
-
     private InMemoryUserRepository() {}
 
     public static void save(User user) {
@@ -45,5 +38,13 @@ public class InMemoryUserRepository {
 
     public static User findByAccount(String account) {
         return Optional.ofNullable(database.get(account)).orElse(null);
+    }
+
+    public static void deleteUser(String account) {
+        database.remove(account);
+    }
+
+    public static void clear() {
+        database.clear();
     }
 }

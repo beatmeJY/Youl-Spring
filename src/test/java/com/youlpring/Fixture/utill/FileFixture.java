@@ -10,7 +10,9 @@ import java.nio.file.Path;
 
 public final class FileFixture {
 
-    private FileFixture() {}
+    private FileFixture() {
+        throw new AssertionError("올바른 방식의 객체를 생성해주세요");
+    }
 
     public static final String STATIC_FILE = "/youlpring.txt";
     public static final String DYNAMIC_URL = "/index";

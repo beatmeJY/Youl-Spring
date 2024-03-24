@@ -1,10 +1,8 @@
 package com.youlpring.tomcat.apache.coyote.http11.response;
 
+import com.youlpring.Fixture.tomcat.coyote.http11.ResponseFixture;
 import com.youlpring.Fixture.utill.FileFixture;
-import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
 import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
-import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
-import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,13 +32,6 @@ class HttpResponseTest {
         HttpResponse httpResponse = new HttpResponse();
         httpResponse.createResponseBody(FileFixture.readStaticTextFile(), ContentType.TEXT_PLAIN);
 
-        StringBuilder expectedBuilder = new StringBuilder();
-        expectedBuilder.append(HttpProtocol.HTTP_1_1.getProtocol()).append(" ").append(HttpStatus.OK.getHeaderString()).append("\r\n");
-        expectedBuilder.append(HttpHeaderConstant.CONTENT_LENGTH).append(": ").append(FileFixture.readStaticTextFile().length()).append("\r\n");
-        expectedBuilder.append(HttpHeaderConstant.CONTENT_TYPE).append(": ").append(ContentType.TEXT_PLAIN.getContentString()).append("\r\n\r\n");
-        expectedBuilder.append(FileFixture.readStaticTextFile());
-        byte[] expectedResponse = expectedBuilder.toString().getBytes();
-
-        assertArrayEquals(expectedResponse, httpResponse.getHttpByte());
+        assertArrayEquals(ResponseFixture.getExpectedStaticFile().getBytes(), httpResponse.getHttpByte());
     }
 }

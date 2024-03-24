@@ -2,7 +2,9 @@ package com.youlpring.Fixture.common;
 
 public final class TestConfigFixture {
 
-    private TestConfigFixture() {}
+    private TestConfigFixture() {
+        throw new AssertionError("올바른 방식의 객체를 생성해주세요");
+    }
 
     public static final String TEST_SERVER_Protocol = "http://";
     public static final String TEST_SERVER_IP = "127.0.0.1";

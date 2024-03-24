@@ -15,6 +15,6 @@ public class UserController extends AbstractController {
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
         User user = InMemoryUserRepository.findByAccount(request.getBodyValue("account"));
-        response.addModel("user", user);
+        response.addModel("userInfo", user);
     }
 }

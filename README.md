@@ -43,3 +43,7 @@
    - [반복코드 제거](https://github.com/beatmeJY/Youlpring/pull/4/commits/0372c7f45a94985b8d4475959417bfc39d7b9b21)
  - [Stubbing을 통해 실제 Socket 통신에서의 상황을 Unit 테스트 한다.](https://github.com/beatmeJY/Youlpring/blob/01990e31e7ae81b659e7410bee3cbe6a2ba9f035/src/test/java/com/youlpring/tomcat/apache/coyote/http11/request/HttpRequestTest.java#L64)
    <br/><br/><br/>
+
+## [Test] 테스트코드작성 ([#5](https://github.com/beatmeJY/Youlpring/pull/5))
+### 미션 2단계의 Controller, DB 관련된 코드들 모두 단위 테스트 작성.
+![image](https://github.com/beatmeJY/Youlpring/assets/54700818/82cee254-311c-46dd-b8eb-8ea98606020e)
