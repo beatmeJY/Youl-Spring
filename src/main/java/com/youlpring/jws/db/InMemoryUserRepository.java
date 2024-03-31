@@ -2,7 +2,7 @@ package com.youlpring.jws.db;
 
 
 import com.youlpring.jws.exception.UserRegisterException;
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

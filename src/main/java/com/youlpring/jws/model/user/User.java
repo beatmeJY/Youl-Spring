@@ -1,4 +1,4 @@
-package com.youlpring.jws.model;
+package com.youlpring.jws.model.user;
 
 import com.youlpring.jws.exception.UserRegisterException;
 

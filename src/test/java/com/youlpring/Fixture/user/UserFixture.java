@@ -1,6 +1,6 @@
 package com.youlpring.Fixture.user;
 
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
 
 public final class UserFixture {
 

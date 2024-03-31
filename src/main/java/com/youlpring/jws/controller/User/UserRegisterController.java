@@ -3,7 +3,7 @@ package com.youlpring.jws.controller.User;
 import com.youlpring.jws.controller.AbstractController;
 import com.youlpring.jws.db.InMemoryUserRepository;
 import com.youlpring.jws.exception.UserRegisterException;
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 

@@ -1,7 +1,7 @@
 package com.youlpring.jws.db;
 
 import com.youlpring.common.db.InitDbBase;
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
