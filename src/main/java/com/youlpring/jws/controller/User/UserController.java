@@ -2,7 +2,8 @@ package com.youlpring.jws.controller.User;
 
 import com.youlpring.jws.controller.AbstractController;
 import com.youlpring.jws.db.InMemoryUserRepository;
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
+import com.youlpring.jws.model.user.UserDTO;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 
@@ -15,6 +16,6 @@ public class UserController extends AbstractController {
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
         User user = InMemoryUserRepository.findByAccount(request.getBodyValue("account"));
-        response.addModel("userInfo", user);
+        response.addModel("userInfo", new UserDTO(user));
     }
 }

@@ -3,6 +3,7 @@ package com.youlpring.jws.controller.User;
 import com.youlpring.common.db.InitDbBase;
 import com.youlpring.jws.db.InMemoryUserRepository;
 import com.youlpring.jws.model.user.User;
+import com.youlpring.jws.model.user.UserDTO;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,7 @@ class UserControllerTest extends InitDbBase {
         Mockito.when(mockRequest.getBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
 
         userController.doGet(mockRequest, response);
-        User modelUser = (User) response.getModelAndView().getModelValue(USER_INFO);
+        UserDTO modelUser = (UserDTO) response.getModelAndView().getModelValue(USER_INFO);
 
         assertEquals(ACCOUNT_VALUE, modelUser.getAccount());
     }
