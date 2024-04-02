@@ -1,7 +1,8 @@
 package com.youlpring.jws.db;
 
 
-import com.youlpring.jws.exception.UserRegisterException;
+import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
+import com.youlpring.jws.common.exception.UserRegisterException;
 import com.youlpring.jws.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class InMemoryUserRepository {
     public static void save(User user) {
         database.compute(user.getAccount(), (key, existUser) -> {
             if (existUser != null) {
-                throw new UserRegisterException("이미 존재하는 계정입니다.");
+                throw new UserRegisterException(ErrorCodeAndMessage.ALREADY_EXISTED_USER);
             }
             if (user.getId() == null) {
                 user.setId(incrementAtomicId());
