@@ -1,16 +1,19 @@
 package com.youlpring.jws.controller.login;
 
+import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
 import com.youlpring.jws.controller.AbstractController;
 import com.youlpring.jws.db.InMemoryUserRepository;
-import com.youlpring.jws.exception.LoginException;
-import com.youlpring.jws.model.User;
-import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
+import com.youlpring.jws.common.exception.LoginException;
+import com.youlpring.jws.model.user.User;
+import com.youlpring.tomcat.apache.coyote.http11.context.*;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 
 public class LoginController extends AbstractController {
 
     public static final LoginController INSTANCE = new LoginController();
+
+    public static final SessionManager sessionManager = SessionManager.INSTANCE;
 
     private LoginController() {}
 
@@ -24,12 +27,18 @@ public class LoginController extends AbstractController {
         try {
             User findUser = InMemoryUserRepository.findByAccount(request.getNotNullBodyValue("account"));
             if (findUser == null || !findUser.checkPassword(request.getNotNullBodyValue("password"))) {
-                response.setHttpStatus(HttpStatus.UNAUTHORIZED);
-                return;
+                throw new LoginException(ErrorCodeAndMessage.FAILED_LOGIN);
             }
+            Session newSession = sessionManager.createSession(
+                    new UserSessionInfo(
+                        findUser.getId(),
+                        findUser.getAccount(),
+                        findUser.getEmail()));
+            sessionManager.add(newSession);
+            response.createSessionCookie(newSession.getSessionKey());
+            response.clientRedirect("/");
         } catch (IllegalArgumentException e) {
-            throw new LoginException("로그인 입력 정보가 올바르지 않습니다.");
+            throw new LoginException(ErrorCodeAndMessage.FAILED_LOGIN);
         }
-        response.clientRedirect("/", true);
     }
 }
