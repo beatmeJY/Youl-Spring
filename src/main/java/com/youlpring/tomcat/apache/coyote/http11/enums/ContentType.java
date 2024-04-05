@@ -18,6 +18,6 @@ public enum ContentType {
     }
 
     public String getContentString() {
-        return this.type + "; charset=utf-8";
+        return this.type + "; charset=UTF-8";
     }
 }

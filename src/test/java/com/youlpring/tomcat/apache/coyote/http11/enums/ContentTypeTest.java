@@ -11,6 +11,6 @@ class ContentTypeTest {
     @Test
     @DisplayName("ContentType 문자열 반환에 성공한다.")
     void getContentString() {
-        assertEquals("application/javascript; charset=utf-8", ContentType.APPLICATION_JAVASCRIPT.getContentString());
+        assertEquals("application/javascript; charset=UTF-8", ContentType.APPLICATION_JAVASCRIPT.getContentString());
     }
 }
