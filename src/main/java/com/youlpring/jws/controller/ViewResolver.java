@@ -1,8 +1,8 @@
 package com.youlpring.jws.controller;
 
 import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
+import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
-import com.youlpring.tomcat.apache.coyote.http11.response.ResponseBody;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -29,21 +29,23 @@ public class ViewResolver {
         return engine;
     }
 
-    public static void execute(HttpResponse response) {
+    public static void execute(HttpRequest request, HttpResponse response) {
         if (response.getViewName() == null || response.getViewName().isBlank()) {
             return;
         }
+        String html = viewThymeleafHtml(response.getModelAndView(), request);
         response.createResponseBody(
-            viewThymeleafHtml(response.getModelAndView()),
+            html,
             ContentType.TEXT_HTML
         );
     }
 
-    private static String viewThymeleafHtml(ModelAndView modelAndView) {
+    private static String viewThymeleafHtml(ModelAndView modelAndView, HttpRequest request) {
         Context context = new Context();
         for (String key : modelAndView.getModelKeys()) {
             context.setVariable(key, modelAndView.getModelValue(key));
         }
+        context.setVariable("isLogin", request.isLogin());
         return templateEngine.process(modelAndView.getViewName(), context);
     }
 }

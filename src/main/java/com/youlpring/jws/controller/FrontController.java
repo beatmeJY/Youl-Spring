@@ -16,9 +16,10 @@ public class FrontController {
     public static void process(HttpRequest request, HttpResponse response) {
         try {
             log.info("요청 URL: {}", request.getUrl());
+            request.initSession();
             getHandler(request).service(request, response);
             if (response.getViewName() != null && !response.getViewName().isBlank()) {
-                ViewResolver.execute(response);
+                ViewResolver.execute(request, response);
             }
         } catch (Exception e) {
             ExceptionHandler.exceptionHandling(e, response);
