@@ -36,6 +36,10 @@ public class ResponseHeader {
         cookieMap.put(expireCookie.getName(), expireCookie);
     }
 
+    public Object getHeader(String headerKey) {
+        return headerMap.get(headerKey);
+    }
+
     public Cookie getCookie(String cookieName) {
         return cookieMap.get(cookieName);
     }

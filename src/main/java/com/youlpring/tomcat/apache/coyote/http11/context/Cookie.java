@@ -41,6 +41,10 @@ public class Cookie {
         return name.name();
     }
 
+    public Long getMaxAge() {
+        return maxAge;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
