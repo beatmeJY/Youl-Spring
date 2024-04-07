@@ -1,7 +1,7 @@
 package com.youlpring.tomcat.apache.coyote.http11.request;
 
 import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
-import com.youlpring.jws.common.exception.UserException;
+import com.youlpring.jws.common.exception.SessionExpirationException;
 import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
 import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
 import com.youlpring.tomcat.apache.coyote.http11.context.Session;
@@ -93,14 +93,14 @@ public class HttpRequest {
         }
         Session findSession = sessionManager.findSession(sessionKey);
         if (findSession == null || sessionManager.isTimeOver(findSession)) {
-            throw new UserException(ErrorCodeAndMessage.UNAUTHORIZED);
+            throw new SessionExpirationException(ErrorCodeAndMessage.SESSION_EXPIRATION);
         }
         this.session = findSession;
     }
 
     public Session getSession() {
         if (session == null) {
-            throw new UserException(ErrorCodeAndMessage.UNAUTHORIZED);
+            throw new SessionExpirationException(ErrorCodeAndMessage.SESSION_EXPIRATION);
         }
         return session;
     }

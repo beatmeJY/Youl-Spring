@@ -41,7 +41,7 @@ public class HttpResponse {
 
     public void serverRedirect(String url) {
         setHttpStatus(HttpStatus.FOUND);
-        responseHeader.addHeader("Location", url);
+        responseHeader.addHeader(HttpHeaderConstant.LOCATION, url);
     }
 
     public void clientRedirect(String url) {
@@ -80,6 +80,18 @@ public class HttpResponse {
 
     public String getViewName() {
         return modelAndView.getViewName();
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public ResponseHeader getResponseHeader() {
+        return responseHeader;
+    }
+
+    public ResponseBody getResponseBody() {
+        return responseBody;
     }
 
     public byte[] getHttpByte() {

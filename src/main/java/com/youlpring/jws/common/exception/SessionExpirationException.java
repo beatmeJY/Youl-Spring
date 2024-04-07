@@ -2,9 +2,9 @@ package com.youlpring.jws.common.exception;
 
 import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
 
-public class UserException extends CodeAndMessageException {
+public class SessionExpirationException extends CodeAndMessageException {
 
-    public UserException(ErrorCodeAndMessage codeAndMessage) {
+    public SessionExpirationException(ErrorCodeAndMessage codeAndMessage) {
         super(codeAndMessage);
     }
 }
