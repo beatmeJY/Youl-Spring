@@ -7,12 +7,8 @@ import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 public class ExceptionHandler {
 
     public static void exceptionHandling(Exception e, HttpResponse response) {
-        if (e instanceof UserRegisterException) {
-            response.serverRedirect("/register");
-            return;
-        }
-        if (e instanceof UserException) {
-            response.serverRedirect("/home");
+        if (e instanceof SessionExpirationException) {
+            response.serverRedirect("/login");
             response.expireSessionCookie();
             return;
         }

@@ -6,10 +6,10 @@ public class UserDTO {
     private final String account;
     private final String email;
 
-    public UserDTO(User user) {
-        id = user.getId();
-        account = user.getAccount();
-        email = user.getEmail();
+    public UserDTO(Long id, String account, String email) {
+        this.id = id;
+        this.account = account;
+        this.email = email;
     }
 
     public Long getId() {

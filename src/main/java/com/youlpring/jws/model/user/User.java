@@ -48,6 +48,10 @@ public class User {
         return this.email;
     }
 
+    public UserDTO toUserDTO() {
+        return new UserDTO(id, account, email);
+    }
+
     @Override
     public String toString() {
         return "User{" +
