@@ -1,5 +1,7 @@
 package com.youlpring.tomcat.apache.coyote.http11.context;
 
+import com.youlpring.jws.common.config.SessionConfiguration;
+
 import java.time.LocalDateTime;
 
 public class Session {
@@ -11,7 +13,7 @@ public class Session {
     public Session(String sessionKey, UserSessionInfo userInfo) {
         this.sessionKey = sessionKey;
         this.userInfo = userInfo;
-        this.maxEffectiveTime = LocalDateTime.now().plusMinutes(10);
+        this.maxEffectiveTime = LocalDateTime.now().plusMinutes(SessionConfiguration.SESSION_MAX_EFFECTIVE_MINUTES);
     }
 
     public String getSessionKey() {

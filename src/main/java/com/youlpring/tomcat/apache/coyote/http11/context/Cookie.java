@@ -1,15 +1,16 @@
 package com.youlpring.tomcat.apache.coyote.http11.context;
 
+import com.youlpring.jws.common.config.CookieConfiguration;
 import com.youlpring.tomcat.apache.coyote.http11.constants.CookieConstant;
 
 public class Cookie {
 
     private final CookieName name;
     private String value;
-    private Long maxAge = 600L;
-    private boolean httpOnly = true;
-    private boolean secure = true;
-    public String path;
+    private Long maxAge = CookieConfiguration.DEFAULT_MAX_AGE;
+    private boolean httpOnly = CookieConfiguration.DEFAULT_HTTPONLY;
+    private boolean secure = CookieConfiguration.DEFAULT_HTTPONLY;
+    public String path = CookieConfiguration.DEFAULT_PATH;
     public String domain;
 
     public Cookie(CookieName name, String value) {
@@ -45,6 +46,14 @@ public class Cookie {
         return maxAge;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -52,8 +61,8 @@ public class Cookie {
         builder.append(CookieConstant.MAX_AGE).append("=").append(maxAge).append(";");
         builder.append(CookieConstant.SECURE).append("=").append(secure).append(";");
         builder.append(CookieConstant.HTTP_ONLY).append("=").append(httpOnly).append(";");
+        builder.append(CookieConstant.PATH).append("=").append(path).append(";");
         builder.append(domain != null ? CookieConstant.DOMAIN + "=" + domain + ";" : "");
-        builder.append(path != null ? CookieConstant.PATH + "=" + path + ";" : "");
         return builder.toString();
     }
 }
