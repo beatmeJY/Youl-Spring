@@ -28,9 +28,15 @@ public final class ResponseFixture {
         return expectedHeader + expectedBody;
     }
 
-    public static String getExpectedHomePage() {
-        String expectedHeader = getHttpResponseHeader(FileFixture.readDynamicFile().length(), ContentType.TEXT_HTML);
-        String expectedBody = FileFixture.readDynamicFile();
+    public static String getExpectedHomePageLoggedIn() {
+        String expectedHeader = getHttpResponseHeader(FileFixture.readDynamicFileLoggedIn().getBytes().length, ContentType.TEXT_HTML);
+        String expectedBody = FileFixture.readDynamicFileNotLoggedIn();
+        return expectedHeader + expectedBody;
+    }
+
+    public static String getExpectedHomePageNotLoggedIn() {
+        String expectedHeader = getHttpResponseHeader(FileFixture.readDynamicFileNotLoggedIn().getBytes().length, ContentType.TEXT_HTML);
+        String expectedBody = FileFixture.readDynamicFileNotLoggedIn();
         return expectedHeader + expectedBody;
     }
 }

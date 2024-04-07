@@ -1,7 +1,9 @@
 package com.youlpring.Fixture.tomcat.coyote.http11;
 
 import com.youlpring.Fixture.common.TestConfigFixture;
+import com.youlpring.tomcat.apache.coyote.http11.constants.CookieConstant;
 import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
+import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpMethod;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 
@@ -22,6 +24,7 @@ public final class RequestFixture {
     public final static String ACCOUNT_KEY = "account";
     public final static String PASSWORD_KEY = "password";
     public final static String EMAIL_KEY = "email";
+    public final static String JSSESIONID_VALUE = "40878273FATyjGVzF3oZ0ZtKMoTRfmzq";
 
     public static final Map<String, Object> bodyMap = new HashMap<>();
 
@@ -35,6 +38,7 @@ public final class RequestFixture {
         return firstHeader(HOME_REQUEST_URL)
                 + HttpHeaderConstant.CONTENT_LENGTH + ": " + body().length() + "\r\n"
                 + header()
+                + cookie() + "\r\n"
                 + body();
     }
 
@@ -45,7 +49,11 @@ public final class RequestFixture {
     }
 
     public static String header() {
-        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + "\r\n\r\n";
+        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + "\r\n";
+    }
+
+    public static String cookie() {
+        return CookieConstant.COOKIE + ": " + CookieName.JSESSIONID + "=" + JSSESIONID_VALUE + "\r\n";
     }
 
     public static String body() {
