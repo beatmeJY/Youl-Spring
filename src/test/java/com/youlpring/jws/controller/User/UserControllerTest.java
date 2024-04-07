@@ -11,13 +11,13 @@ import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static com.youlpring.Fixture.jws.user.UserFixture.ACCOUNT;
 import static com.youlpring.Fixture.jws.user.UserFixture.PASSWORD;
 import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.EMAIL_KEY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("[Unit] UserController 테스트")
 class UserControllerTest extends InitDbBase {
@@ -33,7 +33,7 @@ class UserControllerTest extends InitDbBase {
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse response = new HttpResponse();
         Session session = new Session("sessionKey", new UserSessionInfo(user.getId(), user.getAccount(), user.getEmail()));
-        Mockito.when(mockRequest.getSession()).thenReturn(session);
+        when(mockRequest.getSession()).thenReturn(session);
 
         userController.doGet(mockRequest, response);
         UserDTO modelUser = (UserDTO) response.getModelAndView().getModelValue(ModelName.USERINFO.getName());
