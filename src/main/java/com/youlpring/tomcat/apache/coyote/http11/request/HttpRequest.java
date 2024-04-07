@@ -110,7 +110,6 @@ public class HttpRequest {
     }
 
     public void deleteSession() {
-        sessionManager.remove(session);
         session = null;
     }
 

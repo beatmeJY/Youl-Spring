@@ -3,6 +3,8 @@ package com.youlpring.tomcat.apache.coyote.http11.context;
 import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
 import com.youlpring.jws.common.exception.LoginException;
 import com.youlpring.tomcat.apache.catalina.Manager;
+import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
+import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -21,6 +23,9 @@ public class SessionManager implements Manager {
 
 
     public void add(Session session) {
+        if (session == null || session.getSessionKey() == null) {
+            throw new IllegalArgumentException("세션 값이 올바르지 않습니다.");
+        }
         sessionStorage.put(session.getSessionKey(), session);
     }
 
@@ -34,7 +39,16 @@ public class SessionManager implements Manager {
 
     @Override
     public void remove(Session session) {
+        if (session == null || session.getSessionKey() == null) {
+            throw new IllegalArgumentException("세션 값이 올바르지 않습니다.");
+        }
         sessionStorage.remove(session.getSessionKey());
+    }
+
+    public void delete(HttpRequest request, HttpResponse response) {
+        sessionStorage.remove(request.getSession().getSessionKey());
+        request.deleteSession();
+        response.expireSessionCookie();
     }
 
     public Session createSession(UserSessionInfo userSessionInfo) {
