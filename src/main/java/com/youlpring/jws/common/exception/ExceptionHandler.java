@@ -12,8 +12,8 @@ public class ExceptionHandler {
             response.expireSessionCookie();
             return;
         }
-        if (e instanceof CodeAndMessageException) {
-            response.setHttpStatus(((CodeAndMessageException) e).codeAndMessage.getHttpStatus());
+        if (e instanceof BusinessException) {
+            response.setHttpStatus(((BusinessException) e).codeAndMessage.getHttpStatus());
             response.createResponseBody(e.getMessage(), ContentType.TEXT_PLAIN);
             return;
         }
