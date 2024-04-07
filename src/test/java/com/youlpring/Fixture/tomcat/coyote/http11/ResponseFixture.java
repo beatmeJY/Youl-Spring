@@ -12,14 +12,16 @@ public final class ResponseFixture {
         throw new AssertionError("올바른 방식의 객체를 생성해주세요");
     }
 
+    public final static String CARRIAGE = "\r\n";
+
     public static String getHttpResponseOnlyFirstHeader() {
-        return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + "\r\n\r\n";
+        return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + CARRIAGE+CARRIAGE;
     }
 
     public static String getHttpResponseHeader(int length, ContentType contentType) {
-        return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + "\r\n"
-                + HttpHeaderConstant.CONTENT_LENGTH + ": " + length + "\r\n"
-                + HttpHeaderConstant.CONTENT_TYPE + ": " + contentType.getContentString() + "\r\n\r\n";
+        return HttpProtocol.HTTP_1_1.getProtocol() + " " + HttpStatus.OK.getHeaderString() + CARRIAGE
+                + HttpHeaderConstant.CONTENT_LENGTH + ": " + length + CARRIAGE
+                + HttpHeaderConstant.CONTENT_TYPE + ": " + contentType.getContentString() + CARRIAGE + CARRIAGE;
     }
 
     public static String getExpectedStaticFile() {

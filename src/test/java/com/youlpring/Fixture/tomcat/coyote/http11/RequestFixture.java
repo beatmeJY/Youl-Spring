@@ -25,6 +25,7 @@ public final class RequestFixture {
     public final static String PASSWORD_KEY = "password";
     public final static String EMAIL_KEY = "email";
     public final static String JSSESIONID_VALUE = "40878273FATyjGVzF3oZ0ZtKMoTRfmzq";
+    public final static String CARRIAGE = "\r\n";
 
     public static final Map<String, Object> bodyMap = new HashMap<>();
 
@@ -36,24 +37,24 @@ public final class RequestFixture {
 
     public static String requestAll() {
         return firstHeader(HOME_REQUEST_URL)
-                + HttpHeaderConstant.CONTENT_LENGTH + ": " + body().length() + "\r\n"
+                + HttpHeaderConstant.CONTENT_LENGTH + ": " + body().length() + CARRIAGE
                 + header()
-                + cookie() + "\r\n"
+                + cookie() + CARRIAGE
                 + body();
     }
 
     public static String firstHeader(String url) {
         return HttpMethod.GET.name() + " " +
                 url + " " +
-                HttpProtocol.HTTP_1_1.getProtocol() + "\r\n";
+                HttpProtocol.HTTP_1_1.getProtocol() + CARRIAGE;
     }
 
     public static String header() {
-        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + "\r\n";
+        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + CARRIAGE;
     }
 
     public static String cookie() {
-        return CookieConstant.COOKIE + ": " + CookieName.JSESSIONID + "=" + JSSESIONID_VALUE + "\r\n";
+        return CookieConstant.COOKIE + ": " + CookieName.JSESSIONID + "=" + JSSESIONID_VALUE + CARRIAGE;
     }
 
     public static String body() {
