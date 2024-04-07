@@ -1,5 +1,7 @@
 package com.youlpring.tomcat.apache.coyote.http11.context;
 
+import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
+import com.youlpring.jws.common.exception.LoginException;
 import com.youlpring.tomcat.apache.catalina.Manager;
 
 import java.security.SecureRandom;
@@ -36,6 +38,9 @@ public class SessionManager implements Manager {
     }
 
     public Session createSession(UserSessionInfo userSessionInfo) {
+        if (userSessionInfo == null) {
+            throw new LoginException(ErrorCodeAndMessage.FAILED_LOGIN);
+        }
         return new Session(createSessionId(), userSessionInfo);
     }
 
