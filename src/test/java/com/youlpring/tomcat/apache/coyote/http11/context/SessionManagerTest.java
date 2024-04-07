@@ -94,7 +94,7 @@ class SessionManagerTest {
         sessionManager.add(session);
         Session mockSession = mock(Session.class);
         when(mockSession.getSessionKey()).thenReturn(session.getSessionKey());
-        when(mockSession.getMaxEffectiveTime()).thenReturn(LocalDateTime.now());
+        when(mockSession.getMaxEffectiveTime()).thenReturn(LocalDateTime.now().minusMinutes(1));
 
         assertTrue(sessionManager.isTimeOver(mockSession));
         assertNull(sessionManager.findSession(session.getSessionKey()));

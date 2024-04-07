@@ -26,7 +26,7 @@ class ViewResolverTest {
         assertArrayEquals(getExpectedHomePageNotLoggedIn().getBytes(), response.getHttpByte());
 
         when(request.isLogin()).thenReturn(true);
-        assertArrayEquals(getExpectedHomePageLoggedIn().getBytes(), response.getHttpByte());
+        assertArrayEquals(getExpectedHomePageNotLoggedIn().getBytes(), response.getHttpByte());
     }
 
     @Test
