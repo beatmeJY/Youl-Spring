@@ -6,15 +6,15 @@ import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 
 public class ExceptionHandler {
 
-    public static void exceptionHandling(Exception e, HttpResponse response) {
-        if (e instanceof SessionExpirationException) {
+    public static void exceptionHandling(Exception exception, HttpResponse response) {
+        if (exception instanceof SessionExpirationException) {
             response.serverRedirect("/login");
             response.expireSessionCookie();
             return;
         }
-        if (e instanceof BusinessException) {
-            response.setHttpStatus(((BusinessException) e).codeAndMessage.getHttpStatus());
-            response.createResponseBody(e.getMessage(), ContentType.TEXT_PLAIN);
+        if (exception instanceof BusinessException) {
+            response.setHttpStatus(((BusinessException) exception).codeAndMessage.getHttpStatus());
+            response.createResponseBody(exception.getMessage(), ContentType.TEXT_PLAIN);
             return;
         }
         response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
