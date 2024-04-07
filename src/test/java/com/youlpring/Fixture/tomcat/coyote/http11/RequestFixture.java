@@ -8,6 +8,8 @@ import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.youlpring.Fixture.jws.user.UserFixture.*;
+
 public final class RequestFixture {
 
     private RequestFixture() {
@@ -18,18 +20,15 @@ public final class RequestFixture {
     public static final String HOME_REQUEST_URL = "/index";
 
     public final static String ACCOUNT_KEY = "account";
-    public final static String ACCOUNT_VALUE = "user";
     public final static String PASSWORD_KEY = "password";
-    public final static String PASSWORD_VALUE = "1234";
     public final static String EMAIL_KEY = "email";
-    public final static String EMAIL_VALUE = "test@email.com";
 
     public static final Map<String, Object> bodyMap = new HashMap<>();
 
     static {
-        bodyMap.put(ACCOUNT_KEY, ACCOUNT_VALUE);
-        bodyMap.put(PASSWORD_KEY, PASSWORD_VALUE);
-        bodyMap.put(EMAIL_KEY, EMAIL_VALUE);
+        bodyMap.put(ACCOUNT_KEY, ACCOUNT);
+        bodyMap.put(PASSWORD_KEY, PASSWORD);
+        bodyMap.put(EMAIL_KEY, EMAIL);
     }
 
     public static String requestAll() {

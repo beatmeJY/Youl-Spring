@@ -1,4 +1,4 @@
-package com.youlpring.Fixture.user;
+package com.youlpring.Fixture.jws.user;
 
 import com.youlpring.jws.model.user.User;
 
