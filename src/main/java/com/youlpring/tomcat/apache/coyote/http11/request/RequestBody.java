@@ -3,6 +3,8 @@ package com.youlpring.tomcat.apache.coyote.http11.request;
 import com.youlpring.tomcat.apache.util.IOUtil;
 
 import java.io.BufferedReader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +20,7 @@ public class RequestBody {
             return;
         }
         char[] bodyChars = IOUtil.readByLength(bufferedReader, contentLength);
-        body = String.valueOf(bodyChars);
+        body = String.valueOf(URLDecoder.decode(String.valueOf(bodyChars), StandardCharsets.UTF_8));
         if (body != null) {
             createParamMap();
         }

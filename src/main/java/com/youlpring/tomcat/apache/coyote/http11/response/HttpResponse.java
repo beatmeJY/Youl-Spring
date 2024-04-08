@@ -1,7 +1,9 @@
 package com.youlpring.tomcat.apache.coyote.http11.response;
 
 import com.youlpring.jws.controller.ModelAndView;
+import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
 import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
+import com.youlpring.tomcat.apache.coyote.http11.context.Cookie;
 import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
@@ -39,15 +41,11 @@ public class HttpResponse {
 
     public void serverRedirect(String url) {
         setHttpStatus(HttpStatus.FOUND);
-        responseHeader.addHeader("Location", url);
+        responseHeader.addHeader(HttpHeaderConstant.LOCATION, url);
     }
 
-    public void clientRedirect(String url, boolean successFlag) {
-        if (successFlag) {
-            setHttpStatus(HttpStatus.OK);
-        } else {
-            setHttpStatus(HttpStatus.FOUND);
-        }
+    public void clientRedirect(String url) {
+        setHttpStatus(HttpStatus.OK);
         createResponseBody(url, ContentType.TEXT_PLAIN);
     }
 
@@ -57,6 +55,19 @@ public class HttpResponse {
 
     public void setViewName(String viewName) {
         modelAndView.setViewName(viewName);
+    }
+
+    public void createSessionCookie(String sessionKey) {
+        Cookie cookie = new Cookie(CookieName.JSESSIONID, sessionKey);
+        addCookie(cookie);
+    }
+
+    public void addCookie(Cookie cookie) {
+       responseHeader.addCookie(cookie);
+    }
+
+    public void expireSessionCookie() {
+        responseHeader.expireSessionCookie();
     }
 
     private String getFirstHeader() {
@@ -69,6 +80,18 @@ public class HttpResponse {
 
     public String getViewName() {
         return modelAndView.getViewName();
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public ResponseHeader getResponseHeader() {
+        return responseHeader;
+    }
+
+    public ResponseBody getResponseBody() {
+        return responseBody;
     }
 
     public byte[] getHttpByte() {

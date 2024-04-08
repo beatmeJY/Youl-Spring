@@ -1,6 +1,11 @@
 package com.youlpring.tomcat.apache.coyote.http11.request;
 
+import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
+import com.youlpring.jws.common.exception.SessionExpirationException;
+import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
 import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
+import com.youlpring.tomcat.apache.coyote.http11.context.Session;
+import com.youlpring.tomcat.apache.coyote.http11.context.SessionManager;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpMethod;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 import com.youlpring.tomcat.apache.util.IOUtil;
@@ -17,10 +22,12 @@ public class HttpRequest {
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
+    private static final SessionManager sessionManager = SessionManager.INSTANCE;
     private HttpMethod method;
     private String url;
     private Map<String, Object> queryParameterMap;
     private HttpProtocol protocol;
+    private Session session;
     private RequestHeader requestHeader;
     private RequestBody requestBody;
 
@@ -44,7 +51,6 @@ public class HttpRequest {
         } catch (NumberFormatException e) {
             throw new HttpMessageException("HTTP 요청 Content-Length 정보가 올바르지 않습니다.");
         }
-
     }
 
     private void saveFirstHeader(String firstHeader) {
@@ -80,6 +86,33 @@ public class HttpRequest {
         }
     }
 
+    public void initSession() {
+        String sessionKey = getCookie(CookieName.JSESSIONID.name());
+        if (sessionKey == null || sessionKey.isBlank()) {
+            return;
+        }
+        Session findSession = sessionManager.findSession(sessionKey);
+        if (findSession == null || sessionManager.isTimeOver(findSession)) {
+            throw new SessionExpirationException(ErrorCodeAndMessage.SESSION_EXPIRATION);
+        }
+        this.session = findSession;
+    }
+
+    public Session getSession() {
+        if (session == null) {
+            throw new SessionExpirationException(ErrorCodeAndMessage.SESSION_EXPIRATION);
+        }
+        return session;
+    }
+
+    public boolean isLogin() {
+        return session != null;
+    }
+
+    public void deleteSession() {
+        session = null;
+    }
+
     public HttpMethod getMethod() {
         return method;
     }
@@ -104,6 +137,10 @@ public class HttpRequest {
             return null;
         }
         return requestBody.getParam(key);
+    }
+
+    public String getCookie(String cookieName) {
+        return requestHeader.getCookieValue(cookieName);
     }
 
     public String getNotNullBodyValue(String key) {

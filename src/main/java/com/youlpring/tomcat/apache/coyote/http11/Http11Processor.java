@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 
 public class Http11Processor implements Runnable, Processor {
 
@@ -33,7 +35,7 @@ public class Http11Processor implements Runnable, Processor {
         try (final InputStream inputStream = connection.getInputStream();
              final OutputStream outputStream = connection.getOutputStream()) {
 
-            HttpRequest request = new HttpRequest(new BufferedReader(new InputStreamReader(inputStream)));
+            HttpRequest request = new HttpRequest(new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)));
             HttpResponse response = new HttpResponse();
 
             if (FileType.isStaticFile(request.getUrl())) {

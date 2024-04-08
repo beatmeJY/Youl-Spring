@@ -2,8 +2,6 @@ package com.youlpring.tomcat.apache.coyote.http11;
 
 import com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture;
 import com.youlpring.Fixture.tomcat.coyote.http11.ResponseFixture;
-import com.youlpring.Fixture.utill.FileFixture;
-import com.youlpring.tomcat.apache.coyote.http11.enums.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +30,7 @@ class Http11ProcessorTest {
         OutputStream mockOutputStream = new ByteArrayOutputStream();
         callByApi(mockOutputStream, RequestFixture.HOME_REQUEST_URL);
 
-        assertEquals(ResponseFixture.getExpectedHomePage(), mockOutputStream.toString());
+        assertEquals(ResponseFixture.getExpectedHomePageNotLoggedIn(), mockOutputStream.toString());
     }
 
     private void callByApi(OutputStream outputStream, String url) throws IOException {

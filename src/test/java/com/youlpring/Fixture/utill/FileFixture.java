@@ -18,7 +18,8 @@ public final class FileFixture {
     public static final String DYNAMIC_URL = "/index";
 
     public static final String STATIC_FILE_PATH = "static/youlpring.txt";
-    public static final String DYNAMIC_FILE_PATH = "templates/index.html";
+    public static final String DYNAMIC_FILE_PATH_BY_LOGIN = "templates/index-login.html";
+    public static final String DYNAMIC_FILE_PATH_BY_LOGOUT = "templates/index-logout.html";
 
 
     public static String readStaticTextFile() {
@@ -30,9 +31,18 @@ public final class FileFixture {
         }
     }
 
-    public static String readDynamicFile() {
+    public static String readDynamicFileNotLoggedIn() {
         try {
-            URI uri = FileUtil.class.getClassLoader().getResource(FileFixture.DYNAMIC_FILE_PATH).toURI();
+            URI uri = FileUtil.class.getClassLoader().getResource(FileFixture.DYNAMIC_FILE_PATH_BY_LOGIN).toURI();
+            return Files.readString(Path.of(uri));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException("동적 파일 읽기에 실패하였습니다.");
+        }
+    }
+
+    public static String readDynamicFileLoggedIn() {
+        try {
+            URI uri = FileUtil.class.getClassLoader().getResource(FileFixture.DYNAMIC_FILE_PATH_BY_LOGOUT).toURI();
             return Files.readString(Path.of(uri));
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("동적 파일 읽기에 실패하였습니다.");

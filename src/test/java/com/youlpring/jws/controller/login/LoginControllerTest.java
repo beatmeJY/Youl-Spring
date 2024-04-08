@@ -1,19 +1,24 @@
 package com.youlpring.jws.controller.login;
 
 import com.youlpring.common.db.InitDbBase;
+import com.youlpring.jws.common.config.CookieConfiguration;
+import com.youlpring.jws.common.exception.LoginException;
 import com.youlpring.jws.db.InMemoryUserRepository;
-import com.youlpring.jws.exception.LoginException;
-import com.youlpring.jws.model.User;
-import com.youlpring.tomcat.apache.coyote.http11.enums.HttpStatus;
+import com.youlpring.jws.model.user.User;
+import com.youlpring.tomcat.apache.coyote.http11.context.Cookie;
+import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
+import com.youlpring.tomcat.apache.coyote.http11.context.SessionManager;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.mockito.Mockito.*;
+import static com.youlpring.Fixture.jws.user.UserFixture.*;
+import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.ACCOUNT_KEY;
+import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.PASSWORD_KEY;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("[Unit] LoginController 테스트")
 class LoginControllerTest extends InitDbBase {
@@ -33,17 +38,19 @@ class LoginControllerTest extends InitDbBase {
     @Test
     @DisplayName("로그인 요청에 성공한다.")
     void doPostSuccess() {
-        InMemoryUserRepository.save(new User(ACCOUNT_VALUE, PASSWORD_VALUE, EMAIL_KEY));
+        SessionManager sessionManager = SessionManager.INSTANCE;
+        InMemoryUserRepository.save(new User(ACCOUNT, PASSWORD, EMAIL));
 
         HttpRequest mockRequest = mock(HttpRequest.class);
-        HttpResponse mockResponse = mock(HttpResponse.class);
-        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
+        HttpResponse response = new HttpResponse();
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD);
 
-        loginController.doPost(mockRequest, mockResponse);
-
-        //TODO - 추후 세션데이터 구현 시 응답 객체의 유저정보와 비교문 추가
-        verify(mockResponse).clientRedirect("/", true);
+        loginController.doPost(mockRequest, response);
+        Cookie responseCookie = response.getResponseHeader().getCookie(CookieName.JSESSIONID.name());
+        assertNotNull(sessionManager.findSession(responseCookie.getValue()));
+        assertEquals(CookieConfiguration.DEFAULT_MAX_AGE, responseCookie.getMaxAge());
+        assertEquals("/", response.getResponseBody().getBody());
     }
 
     @Test
@@ -51,12 +58,10 @@ class LoginControllerTest extends InitDbBase {
     void doPostFailByNotFoundUser() {
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse mockResponse = mock(HttpResponse.class);
-        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD);
 
-        loginController.doPost(mockRequest, mockResponse);
-
-        verify(mockResponse).setHttpStatus(HttpStatus.UNAUTHORIZED);
+        assertThrowsExactly(LoginException.class, () -> loginController.doPost(mockRequest, mockResponse));
     }
 
     @Test

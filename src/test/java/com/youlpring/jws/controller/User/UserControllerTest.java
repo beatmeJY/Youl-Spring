@@ -1,36 +1,43 @@
 package com.youlpring.jws.controller.User;
 
 import com.youlpring.common.db.InitDbBase;
+import com.youlpring.jws.controller.ModelName;
 import com.youlpring.jws.db.InMemoryUserRepository;
-import com.youlpring.jws.model.User;
+import com.youlpring.jws.model.user.User;
+import com.youlpring.jws.model.user.UserDTO;
+import com.youlpring.tomcat.apache.coyote.http11.context.Session;
+import com.youlpring.tomcat.apache.coyote.http11.context.UserSessionInfo;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.*;
+import static com.youlpring.Fixture.jws.user.UserFixture.ACCOUNT;
+import static com.youlpring.Fixture.jws.user.UserFixture.PASSWORD;
+import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.EMAIL_KEY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("[Unit] UserController 테스트")
 class UserControllerTest extends InitDbBase {
 
     private final UserController userController = UserController.INSTANCE;
-    private final static String USER_INFO = "userInfo";
 
     @Test
     @DisplayName("GET 요청 시 현재 사용자 정보를 리턴한다.")
     void doGetSuccess() {
-        InMemoryUserRepository.save(new User(ACCOUNT_VALUE, PASSWORD_VALUE, EMAIL_KEY));
+        User user = new User(ACCOUNT, PASSWORD, EMAIL_KEY);
+        InMemoryUserRepository.save(user);
 
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse response = new HttpResponse();
-        Mockito.when(mockRequest.getBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
+        Session session = new Session("sessionKey", new UserSessionInfo(user.getId(), user.getAccount(), user.getEmail()));
+        when(mockRequest.getSession()).thenReturn(session);
 
         userController.doGet(mockRequest, response);
-        User modelUser = (User) response.getModelAndView().getModelValue(USER_INFO);
+        UserDTO modelUser = (UserDTO) response.getModelAndView().getModelValue(ModelName.USERINFO.getName());
 
-        assertEquals(ACCOUNT_VALUE, modelUser.getAccount());
+        assertEquals(ACCOUNT, modelUser.getAccount());
     }
 }

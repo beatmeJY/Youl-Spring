@@ -1,12 +1,16 @@
 package com.youlpring.Fixture.tomcat.coyote.http11;
 
 import com.youlpring.Fixture.common.TestConfigFixture;
+import com.youlpring.tomcat.apache.coyote.http11.constants.CookieConstant;
 import com.youlpring.tomcat.apache.coyote.http11.constants.HttpHeaderConstant;
+import com.youlpring.tomcat.apache.coyote.http11.context.CookieName;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpMethod;
 import com.youlpring.tomcat.apache.coyote.http11.enums.HttpProtocol;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.youlpring.Fixture.jws.user.UserFixture.*;
 
 public final class RequestFixture {
 
@@ -18,35 +22,39 @@ public final class RequestFixture {
     public static final String HOME_REQUEST_URL = "/index";
 
     public final static String ACCOUNT_KEY = "account";
-    public final static String ACCOUNT_VALUE = "user";
     public final static String PASSWORD_KEY = "password";
-    public final static String PASSWORD_VALUE = "1234";
     public final static String EMAIL_KEY = "email";
-    public final static String EMAIL_VALUE = "test@email.com";
+    public final static String JSSESIONID_VALUE = "40878273FATyjGVzF3oZ0ZtKMoTRfmzq";
+    public final static String CARRIAGE = "\r\n";
 
     public static final Map<String, Object> bodyMap = new HashMap<>();
 
     static {
-        bodyMap.put(ACCOUNT_KEY, ACCOUNT_VALUE);
-        bodyMap.put(PASSWORD_KEY, PASSWORD_VALUE);
-        bodyMap.put(EMAIL_KEY, EMAIL_VALUE);
+        bodyMap.put(ACCOUNT_KEY, ACCOUNT);
+        bodyMap.put(PASSWORD_KEY, PASSWORD);
+        bodyMap.put(EMAIL_KEY, EMAIL);
     }
 
     public static String requestAll() {
         return firstHeader(HOME_REQUEST_URL)
-                + HttpHeaderConstant.CONTENT_LENGTH + ": " + body().length() + "\r\n"
+                + HttpHeaderConstant.CONTENT_LENGTH + ": " + body().length() + CARRIAGE
                 + header()
+                + cookie() + CARRIAGE
                 + body();
     }
 
     public static String firstHeader(String url) {
         return HttpMethod.GET.name() + " " +
                 url + " " +
-                HttpProtocol.HTTP_1_1.getProtocol() + "\r\n";
+                HttpProtocol.HTTP_1_1.getProtocol() + CARRIAGE;
     }
 
     public static String header() {
-        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + "\r\n\r\n";
+        return HttpHeaderConstant.HOST + ": " + TestConfigFixture.TEST_SERVER_IP_PORT + CARRIAGE;
+    }
+
+    public static String cookie() {
+        return CookieConstant.COOKIE + ": " + CookieName.JSESSIONID + "=" + JSSESIONID_VALUE + CARRIAGE;
     }
 
     public static String body() {

@@ -1,6 +1,6 @@
 package com.youlpring.tomcat.apache.catalina;
 
-import com.youlpring.tomcat.apache.catalina.session.Session;
+import com.youlpring.tomcat.apache.coyote.http11.context.Session;
 
 import java.io.IOException;
 

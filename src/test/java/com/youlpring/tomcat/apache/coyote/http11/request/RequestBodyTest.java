@@ -3,7 +3,6 @@ package com.youlpring.tomcat.apache.coyote.http11.request;
 import com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -12,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @DisplayName("[Unit] RequestBody 테스트")
 class RequestBodyTest {
@@ -42,9 +42,9 @@ class RequestBodyTest {
     }
 
     private RequestBody saveRequestBody() throws IOException {
-        Socket mockSocket = Mockito.mock(Socket.class);
+        Socket mockSocket = mock(Socket.class);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(RequestFixture.body().getBytes());
-        Mockito.when(mockSocket.getInputStream()).thenReturn(byteArrayInputStream);
+        when(mockSocket.getInputStream()).thenReturn(byteArrayInputStream);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(mockSocket.getInputStream()));
 

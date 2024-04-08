@@ -1,6 +1,7 @@
-package com.youlpring.jws.model;
+package com.youlpring.jws.model.user;
 
-import com.youlpring.jws.exception.UserRegisterException;
+import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
+import com.youlpring.jws.common.exception.UserRegisterException;
 
 public class User {
 
@@ -26,7 +27,7 @@ public class User {
 
     public void setId(Long newId) {
         if (id != null) {
-            throw new UserRegisterException("이미 존재하는 계정입니다.");
+            throw new UserRegisterException(ErrorCodeAndMessage.ALREADY_EXISTED_USER);
         }
         this.id = newId;
     }
@@ -45,6 +46,10 @@ public class User {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public UserDTO toUserDTO() {
+        return new UserDTO(id, account, email);
     }
 
     @Override

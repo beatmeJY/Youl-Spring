@@ -1,6 +1,6 @@
 package com.youlpring.jws.controller;
 
-import com.youlpring.jws.exception.UserRegisterException;
+import com.youlpring.jws.common.exception.ExceptionHandler;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.slf4j.Logger;
@@ -16,13 +16,13 @@ public class FrontController {
     public static void process(HttpRequest request, HttpResponse response) {
         try {
             log.info("요청 URL: {}", request.getUrl());
+            request.initSession();
             getHandler(request).service(request, response);
             if (response.getViewName() != null && !response.getViewName().isBlank()) {
-                ViewResolver.execute(response);
+                ViewResolver.execute(request, response);
             }
-        } catch (UserRegisterException e) {
-            log.error("회원저장 오류", e);
-            response.clientRedirect("/register", false);
+        } catch (Exception e) {
+            ExceptionHandler.exceptionHandling(e, response);
         }
     }
 

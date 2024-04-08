@@ -1,14 +1,14 @@
 package com.youlpring.jws.controller.User;
 
 import com.youlpring.common.db.InitDbBase;
+import com.youlpring.jws.common.exception.UserRegisterException;
 import com.youlpring.jws.db.InMemoryUserRepository;
-import com.youlpring.jws.exception.UserRegisterException;
-import com.youlpring.jws.model.User;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.youlpring.Fixture.jws.user.UserFixture.*;
 import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -36,26 +36,25 @@ class UserRegisterControllerTest extends InitDbBase {
     void doPostSuccess() {
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse mockResponse = mock(HttpResponse.class);
-        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
-        when(mockRequest.getNotNullBodyValue(EMAIL_KEY)).thenReturn(EMAIL_VALUE);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD);
+        when(mockRequest.getNotNullBodyValue(EMAIL_KEY)).thenReturn(EMAIL);
 
         userRegisterController.doPost(mockRequest, mockResponse);
 
-        assertEquals(ACCOUNT_VALUE, InMemoryUserRepository.findByAccount(ACCOUNT_VALUE).getAccount());
-        verify(mockResponse).clientRedirect("/login", true);
-
+        assertEquals(ACCOUNT, InMemoryUserRepository.findByAccount(ACCOUNT).getAccount());
+        verify(mockResponse).clientRedirect("/login");
     }
 
     @Test
     @DisplayName("이미 존재하는 유저는 가입에 실패한다.")
     void doPostFailByExisted() {
-        InMemoryUserRepository.save(new User(ACCOUNT_VALUE, PASSWORD_VALUE, EMAIL_KEY));
+        InMemoryUserRepository.save(USER);
 
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse mockResponse = mock(HttpResponse.class);
-        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT_VALUE);
-        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD_VALUE);
+        when(mockRequest.getNotNullBodyValue(ACCOUNT_KEY)).thenReturn(ACCOUNT);
+        when(mockRequest.getNotNullBodyValue(PASSWORD_KEY)).thenReturn(PASSWORD);
 
         assertThrowsExactly(
                 UserRegisterException.class,
