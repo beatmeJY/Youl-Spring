@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
+import static com.youlpring.Fixture.tomcat.coyote.http11.UserSessionInfoFixture.USER_SESSION_INFO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -18,9 +19,7 @@ class SessionManagerTest {
     @Test
     @DisplayName("세션을 생성하는데 성공한다.")
     void createSessionSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = sessionManager.createSession(USER_SESSION_INFO);
 
         assertDoesNotThrow(() -> Long.parseLong(session.getSessionKey().substring(0, 8)));
         assertEquals(32, session.getSessionKey().length());
@@ -29,8 +28,7 @@ class SessionManagerTest {
     @Test
     @DisplayName("세선 저장에 성공한다.")
     void addSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = sessionManager.createSession(USER_SESSION_INFO);
 
         sessionManager.add(session);
 
@@ -50,8 +48,7 @@ class SessionManagerTest {
     @Test
     @DisplayName("세션 삭제에 성공한다.")
     void removeSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = sessionManager.createSession(USER_SESSION_INFO);
         sessionManager.add(session);
 
         sessionManager.remove(session);
@@ -62,8 +59,7 @@ class SessionManagerTest {
     @Test
     @DisplayName("세션을 삭제할때 HTTP 객체도 삭제를 반영하는데 성공한다.")
     void deleteSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = sessionManager.createSession(USER_SESSION_INFO);
         sessionManager.add(session);
         HttpRequest mockHttpRequest = mock(HttpRequest.class);
         HttpResponse response = new HttpResponse();
@@ -79,8 +75,7 @@ class SessionManagerTest {
     @Test
     @DisplayName("세션이 만료시간을 경과하지 않았다면 성공한다.")
     void isTimeOverSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = sessionManager.createSession(USER_SESSION_INFO);
         sessionManager.add(session);
 
         assertFalse(sessionManager.isTimeOver(session));
@@ -89,14 +84,9 @@ class SessionManagerTest {
     @Test
     @DisplayName("세션이 만료시간을 경과하였다면 세션 삭제에 성공한다.")
     void isTimeOverDeleteSuccess() {
-        UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = new Session("key", USER_SESSION_INFO, LocalDateTime.now().minusMinutes(1));
         sessionManager.add(session);
-        Session mockSession = mock(Session.class);
-        when(mockSession.getSessionKey()).thenReturn(session.getSessionKey());
-        when(mockSession.getMaxEffectiveTime()).thenReturn(LocalDateTime.now().minusMinutes(1));
-
-        assertTrue(sessionManager.isTimeOver(mockSession));
+        assertTrue(sessionManager.isTimeOver(session));
         assertNull(sessionManager.findSession(session.getSessionKey()));
     }
 }

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@DisplayName("[unit] LogoutController 테스트")
+@DisplayName("[Unit] LogoutController 테스트")
 class LogoutControllerTest {
 
     private final static LogoutController logoutController = LogoutController.INSTANCE;

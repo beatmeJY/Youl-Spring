@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -72,7 +73,7 @@ class HttpRequestTest {
     void initSessionSuccess() throws IOException {
         HttpRequest request = saveHttpRequest(RequestFixture.requestAll());
         SessionManager sessionManager = SessionManager.INSTANCE;
-        sessionManager.add(new Session(RequestFixture.JSSESIONID_VALUE, mock(UserSessionInfo.class)));
+        sessionManager.add(new Session(RequestFixture.JSSESIONID_VALUE, mock(UserSessionInfo.class), LocalDateTime.now().plusMinutes(10)));
 
         request.initSession();
 

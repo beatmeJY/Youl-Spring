@@ -1,5 +1,6 @@
 package com.youlpring.tomcat.apache.catalina.startup;
 
+import com.youlpring.common.core.DefaultInitializer;
 import com.youlpring.tomcat.apache.catalina.connector.Connector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,8 @@ class TomcatTest {
     void TomcatSuccess() {
         Connector connector = mock(Connector.class);
         Tomcat tomcat = new Tomcat();
-        tomcat.start(connector);
+        DefaultInitializer defaultInitializer = new DefaultInitializer();
+        tomcat.start(connector, defaultInitializer);
 
         verify(connector, Mockito.times(1)).start();
         verify(connector, Mockito.times(1)).stop();

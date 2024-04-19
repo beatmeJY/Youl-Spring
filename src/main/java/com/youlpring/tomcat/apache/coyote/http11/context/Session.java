@@ -10,10 +10,10 @@ public class Session {
     private final LocalDateTime maxEffectiveTime;
     private final UserSessionInfo userInfo;
 
-    public Session(String sessionKey, UserSessionInfo userInfo) {
+    public Session(String sessionKey, UserSessionInfo userInfo, LocalDateTime maxEffectiveTime) {
         this.sessionKey = sessionKey;
         this.userInfo = userInfo;
-        this.maxEffectiveTime = LocalDateTime.now().plusMinutes(SessionConfiguration.SESSION_MAX_EFFECTIVE_MINUTES);
+        this.maxEffectiveTime = maxEffectiveTime;
     }
 
     public String getSessionKey() {

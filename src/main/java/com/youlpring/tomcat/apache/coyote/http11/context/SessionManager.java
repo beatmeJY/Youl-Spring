@@ -1,6 +1,7 @@
 package com.youlpring.tomcat.apache.coyote.http11.context;
 
 import com.youlpring.jws.common.codeAndMessage.ErrorCodeAndMessage;
+import com.youlpring.jws.common.config.SessionConfiguration;
 import com.youlpring.jws.common.exception.LoginException;
 import com.youlpring.tomcat.apache.catalina.Manager;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
@@ -8,6 +9,8 @@ import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -55,7 +58,8 @@ public class SessionManager implements Manager {
         if (userSessionInfo == null) {
             throw new LoginException(ErrorCodeAndMessage.FAILED_LOGIN);
         }
-        return new Session(createSessionId(), userSessionInfo);
+        return new Session(createSessionId(), userSessionInfo,
+                LocalDateTime.now().plusMinutes(SessionConfiguration.SESSION_MAX_EFFECTIVE_MINUTES));
     }
 
     public boolean isTimeOver(Session session) {
@@ -74,5 +78,16 @@ public class SessionManager implements Manager {
             buffer.append(SESSION_RANDOM_STRING.charAt(random.nextInt(SESSION_RANDOM_STRING.length())));
         }
         return buffer.toString();
+    }
+
+    public List<String> getSessionKeys() {
+        return new ArrayList<>(sessionStorage.keySet());
+    }
+
+    public Session sessionRefresh(Session oldSession) {
+        Session newSession = createSession(oldSession.getUserInfo());
+        remove(oldSession);
+        add(newSession);
+        return newSession;
     }
 }
