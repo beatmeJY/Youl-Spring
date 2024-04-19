@@ -94,6 +94,10 @@ public class HttpResponse {
         return responseBody;
     }
 
+    public Cookie getCookie(String key) {
+        return responseHeader.getCookie(key);
+    }
+
     public byte[] getHttpByte() {
         StringBuilder builder = new StringBuilder();
         builder.append(this.getFirstHeader()).append("\r\n");
