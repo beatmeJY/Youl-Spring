@@ -12,6 +12,8 @@ import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static com.youlpring.Fixture.jws.user.UserFixture.ACCOUNT;
 import static com.youlpring.Fixture.jws.user.UserFixture.PASSWORD;
 import static com.youlpring.Fixture.tomcat.coyote.http11.RequestFixture.EMAIL_KEY;
@@ -32,9 +34,12 @@ class UserControllerTest extends InitDbBase {
 
         HttpRequest mockRequest = mock(HttpRequest.class);
         HttpResponse response = new HttpResponse();
-        Session session = new Session("sessionKey", new UserSessionInfo(user.getId(), user.getAccount(), user.getEmail()));
-        when(mockRequest.getSession()).thenReturn(session);
+        Session session = new Session(
+                "sessionKey",
+                new UserSessionInfo(user.getId(), user.getAccount(), user.getEmail()),
+                LocalDateTime.now().plusMinutes(10));
 
+        when(mockRequest.getSession()).thenReturn(session);
         userController.doGet(mockRequest, response);
         UserDTO modelUser = (UserDTO) response.getModelAndView().getModelValue(ModelName.USERINFO.getName());
 

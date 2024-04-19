@@ -4,6 +4,7 @@ import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
 
@@ -90,13 +91,9 @@ class SessionManagerTest {
     @DisplayName("세션이 만료시간을 경과하였다면 세션 삭제에 성공한다.")
     void isTimeOverDeleteSuccess() {
         UserSessionInfo mockUserSessionInfo = mock(UserSessionInfo.class);
-        Session session = sessionManager.createSession(mockUserSessionInfo);
+        Session session = new Session("key", Mockito.mock(UserSessionInfo.class), LocalDateTime.now().minusMinutes(1));
         sessionManager.add(session);
-        Session mockSession = mock(Session.class);
-        when(mockSession.getSessionKey()).thenReturn(session.getSessionKey());
-        when(mockSession.getMaxEffectiveTime()).thenReturn(LocalDateTime.now().minusMinutes(1));
-
-        assertTrue(sessionManager.isTimeOver(mockSession));
+        assertTrue(sessionManager.isTimeOver(session));
         assertNull(sessionManager.findSession(session.getSessionKey()));
     }
 }
