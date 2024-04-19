@@ -13,7 +13,7 @@ public class SessionGarbageCollector {
 
     private final TimeUnit timeUnit;
 
-    SessionManager sessionManager = SessionManager.INSTANCE;
+    private final SessionManager sessionManager = SessionManager.INSTANCE;
 
     public SessionGarbageCollector(long initialDelay, long period, TimeUnit timeUnit) {
         this.initialDelay = initialDelay;
