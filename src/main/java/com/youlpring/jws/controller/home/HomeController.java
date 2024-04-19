@@ -1,5 +1,6 @@
-package com.youlpring.jws.controller;
+package com.youlpring.jws.controller.home;
 
+import com.youlpring.jws.controller.AbstractController;
 import com.youlpring.tomcat.apache.coyote.http11.request.HttpRequest;
 import com.youlpring.tomcat.apache.coyote.http11.response.HttpResponse;
 

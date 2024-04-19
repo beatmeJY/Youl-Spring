@@ -2,6 +2,7 @@ package com.youlpring.jws.controller;
 
 import com.youlpring.jws.controller.User.UserController;
 import com.youlpring.jws.controller.User.UserRegisterController;
+import com.youlpring.jws.controller.home.HomeController;
 import com.youlpring.jws.controller.login.LoginController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
