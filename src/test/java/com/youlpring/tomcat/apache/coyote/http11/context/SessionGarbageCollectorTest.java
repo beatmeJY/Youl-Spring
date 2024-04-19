@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@DisplayName("[Unit] SessionManager 테스트")
+@DisplayName("[Unit] SessionGarbageCollector 테스트")
 class SessionGarbageCollectorTest {
 
     SessionManager sessionManager = SessionManager.INSTANCE;
