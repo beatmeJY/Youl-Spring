@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @DisplayName("[Unit] SessionGarbageCollector 테스트")
 class SessionGarbageCollectorTest {
 
-    SessionManager sessionManager = SessionManager.INSTANCE;
+    private final SessionManager sessionManager = SessionManager.INSTANCE;
 
     @Test
     @DisplayName("세션스토리지에 만료된 세션을 찾아 삭제에 성공한다.")
