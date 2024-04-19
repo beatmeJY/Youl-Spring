@@ -2,8 +2,10 @@ package com.youlpring.jws.controller;
 
 import com.youlpring.jws.controller.User.UserController;
 import com.youlpring.jws.controller.User.UserRegisterController;
+import com.youlpring.jws.controller.home.HomeController;
 import com.youlpring.jws.controller.login.LogoutController;
 import com.youlpring.jws.controller.login.LoginController;
+import com.youlpring.jws.controller.login.SessionReloadController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,7 @@ public class RequestHandlerMapping {
         controllerMap.put("/logout", LogoutController.INSTANCE);
         controllerMap.put("/user", UserController.INSTANCE);
         controllerMap.put("/register", UserRegisterController.INSTANCE);
+        controllerMap.put("/session/reload", SessionReloadController.INSTANCE);
     }
 
     public static Controller getController(String url) {

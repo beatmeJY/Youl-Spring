@@ -83,4 +83,11 @@ public class SessionManager implements Manager {
     public List<String> getSessionKeys() {
         return new ArrayList<>(sessionStorage.keySet());
     }
+
+    public Session sessionRefresh(Session oldSession) {
+        Session newSession = createSession(oldSession.getUserInfo());
+        remove(oldSession);
+        add(newSession);
+        return newSession;
+    }
 }
